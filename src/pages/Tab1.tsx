@@ -1,4 +1,4 @@
-import PopularMoviesDemo from '../components/PopularMoviesDemo'
+import PopularMoviesDemo from '@/components/PopularMoviesDemo'
 import './Tab1.css'
 
 const Tab1: React.FC = () => {

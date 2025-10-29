@@ -1,31 +1,4 @@
-import axios from 'axios'
-
-// TMDB API Client
-const api = axios.create({
-  baseURL: '/api',
-  timeout: 10000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-})
-
-// Request interceptor para auth
-api.interceptors.request.use((config) => {
-  const apiKey = import.meta.env.VITE_TMDB_API_V3_KEY
-  if (apiKey) {
-    config.headers.Authorization = `Bearer ${apiKey}`
-  }
-  return config
-})
-
-// Response interceptor para erros
-api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    const message = error.response?.data?.status_message || error.message
-    return Promise.reject(new Error(message))
-  }
-)
+import api from '@/lib/tmdb.axios'
 
 // TMDB Service
 export const tmdbService = {

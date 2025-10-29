@@ -1,3 +1,6 @@
+import { useFavorites } from '@/hooks/useFavorites'
+import { usePopularMovies } from '@/hooks/useMovies'
+import { movieUtils } from '@/utils/movie.utils'
 import {
   IonButton,
   IonCard,
@@ -17,9 +20,6 @@ import {
 } from '@ionic/react'
 import { heart, heartOutline } from 'ionicons/icons'
 import { useState } from 'react'
-import { useFavorites } from '../hooks/useFavorites'
-import { usePopularMovies } from '../hooks/useMovies'
-import { movieUtils } from '../utils/movie.utils'
 
 const PopularMoviesDemo: React.FC = () => {
   const [showToast, setShowToast] = useState(false)

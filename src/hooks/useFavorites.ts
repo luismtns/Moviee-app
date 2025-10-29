@@ -1,4 +1,4 @@
-import { useFavoritesStore } from '../stores/favoritesStore'
+import { useFavoritesStore } from '@/stores/favoritesStore'
 
 // Hook simplificado para favoritos usando Zustand
 export const useFavorites = () => {

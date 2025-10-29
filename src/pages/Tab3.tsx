@@ -1,3 +1,6 @@
+import { useSearchMovies } from '@/hooks/useMovies'
+import { useFavoritesStore } from '@/stores/favoritesStore'
+import { Movie } from '@/types/Movie'
 import {
   IonButton,
   IonContent,
@@ -17,9 +20,6 @@ import {
 } from '@ionic/react'
 import { heart, heartOutline } from 'ionicons/icons'
 import { useState } from 'react'
-import { useSearchMovies } from '../hooks/useMovies'
-import { useFavoritesStore } from '../stores/favoritesStore'
-import { Movie } from '../types/Movie'
 import './Tab3.css'
 
 const Tab3: React.FC = () => {

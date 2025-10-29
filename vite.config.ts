@@ -2,19 +2,15 @@
 
 import legacy from '@vitejs/plugin-legacy'
 import react from '@vitejs/plugin-react'
+import path from 'path'
 import { defineConfig } from 'vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), legacy()],
-  server: {
-    proxy: {
-      '/api': {
-        target: 'https://api.themoviedb.org/3',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
-        secure: true,
-      },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
     },
   },
   test: {

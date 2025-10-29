@@ -1,3 +1,5 @@
+import { useMovieDetails } from '@/hooks/useMovies'
+import { useFavoritesStore } from '@/stores/favoritesStore'
 import {
   IonButton,
   IonCard,
@@ -14,8 +16,6 @@ import {
   IonToolbar,
 } from '@ionic/react'
 import { heart } from 'ionicons/icons'
-import { useMovieDetails } from '../hooks/useMovies'
-import { useFavoritesStore } from '../stores/favoritesStore'
 import './Tab2.css'
 
 const Tab2: React.FC = () => {
