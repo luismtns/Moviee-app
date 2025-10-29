@@ -1,151 +1,237 @@
-# Arquitetura
+# Arquitetura do App
 
-## 1. Visão Geral
+App de filmes usando **Ionic React** que consome a **API do TMDB**.
 
-Aplicação **Ionic React + Vite + TypeScript** para consumir a **API TMDB**.
-Requisitos cobertos: Home (populares), Detalhe, Favoritos, Busca; estado global; loading/erro; grid responsivo; paginação/scroll infinito; testes; deploy Web/PWA e build mobile (Capacitor).
-
----
-
-## 2. Princípios
-
-- Separação entre **UI (Ionic)**, **Domínio** e **Infraestrutura**.
-- Regras de negócio puras no domínio.
-- Repositórios isolam acesso à API e storage.
-- Estado global previsível com cache de requisições.
+**O que faz:** Lista filmes populares, busca, favorita e mostra detalhes.
 
 ---
 
-## 3. Estrutura de Pastas
+## O que o app precisa fazer
+
+**4 telas principais:**
+
+- Home com filmes populares
+- Tela de detalhes do filme
+- Lista de favoritos
+- Busca de filmes
+
+**Deve funcionar assim:**
+
+- Grid responsivo (mobile + desktop)
+- Scroll infinito (carrega mais conforme rola)
+- Favoritar/desfavoritar filmes
+- Buscar filme por nome
+- Mostrar loading quando carrega
+- Mostrar erro se der problema
+- Salvar favoritos no celular
+- Funcionar offline (dados em cache)
+
+**Parte técnica:**
+
+- Ionic React + TypeScript
+- Estado global para dados
+- Testes nos componentes
+- Rodar na web (PWA)
+- Gerar app mobile (Android/iOS)
+
+---
+
+## Stack
+
+- **App**: Ionic React + TypeScript
+- **Build**: Vite
+- **APIs**: React Query (TanStack Query)
+- **Estado Local**: Zustand
+- **Mobile**: Capacitor
+- **Testes**: Jest + Testing Library
+
+**Por que essa stack?**
+
+- React Query: cache inteligente e sync automático
+- Zustand: simples e leve para favoritos
+- Ionic: componentes prontos para mobile
+
+---
+
+## Como está organizado
 
 ```
 src/
-  app/
-    routes/              # IonReactRouter + IonRouterOutlet
-    store/               # Redux Toolkit + RTK Query (moviesApi, favoritesSlice)
-  components/            # UI reutilizável (Card, Grid, Header)
-  pages/                 # Home, MovieDetails, Favorites, Search
-  domain/                # Entidades e serviços (regras)
-  infra/                 # API TMDB e storage local
-  lib/                   # Utils (debounce, highlight)
-  styles/                # Tema Ionic, CSS global
-  tests/                 # Testes por camada e domínio
-  main.tsx
+  components/     # Peças reutilizáveis (cards, grids, loading)
+  pages/          # Telas do app (home, detalhes, favoritos, busca)
+  services/       # Chamadas para APIs externas
+  stores/         # Estados globais (favoritos, preferências)
+  hooks/          # Lógica customizada reutilizável
+  types/          # Definições TypeScript
+  utils/          # Funções auxiliares
   App.tsx
 ```
 
-**Dependências**
+---
 
-- `pages/components` → podem importar de `app`, `domain`, `infra`, `lib`.
-- `domain` → não depende de `app/pages/components/infra`.
-- `infra` → pode importar tipos do `domain`.
-- `tests` → pode acessar todas as camadas.
+## Como funciona
+
+**Fluxo simples:**
+
+```
+Tela → Hook → React Query → API TMDB
+      ↓
+   Zustand (favoritos salvos)
+```
+
+**Na prática:**
+
+1. Usuário abre o app
+2. React Query busca filmes e guarda em cache
+3. Usuário favorita → Zustand salva no celular
+4. Próxima vez: dados já estão lá!
 
 ---
 
-## 4. Fluxo de Dados
+## Services (APIs)
 
-```mermaid
-flowchart LR
-  UI[Pages/Components (Ionic)] --> Store[RTK Query / Slices]
-  Store --> Repo[Infra (TMDB, Storage)]
-  Repo --> Domain[Regras de Negócio]
-  Domain --> Store
-  Store --> UI
+Funções que conversam com o mundo exterior:
+
+```typescript
+// services/tmdb.service.ts
+export const tmdbService = {
+  getPopular: (page = 1) => fetch(`/api/movie/popular?page=${page}`),
+  getDetails: (id) => fetch(`/api/movie/${id}`),
+  search: (query, page = 1) => fetch(`/api/search/movie?query=${query}`),
+}
 ```
+
+**O que faz:** Busca filmes na API do TMDB de forma organizada.
 
 ---
 
-## 5. Domínio
+## Stores (Estados globais)
 
+Coisas que o app precisa lembrar:
+
+```typescript
+// stores/favorites.store.ts
+export const useFavoritesStore = create(
+  persist(
+    (set, get) => ({
+      favoriteIds: [],
+      toggleFavorite: (id) =>
+        set((state) => ({
+          favoriteIds: state.favoriteIds.includes(id)
+            ? state.favoriteIds.filter((fav) => fav !== id)
+            : [...state.favoriteIds, id],
+        })),
+      isFavorite: (id) => get().favoriteIds.includes(id),
+    }),
+    {
+      name: 'favorites', // salva automático no celular
+    }
+  )
+)
 ```
-domain/
-  movie/
-    movie.types.ts       # Movie, Genre, Rating
-    movie.service.ts     # toggleFavorite, sortByTitle, sortByRating
-```
+
+**O que faz:** Lembra quais filmes você favoritou, mesmo se fechar o app.
 
 ---
 
-## 6. Infraestrutura
+## Hooks (lógica reutilizável)
 
+Facilitam a vida dos componentes:
+
+```typescript
+// hooks/useMovies.ts
+export const useMovies = (page = 1) => {
+  return useQuery({
+    queryKey: ['movies', 'popular', page],
+    queryFn: () => tmdbService.getPopular(page),
+    staleTime: 5 * 60 * 1000, // cache por 5min
+  })
+}
+
+// hooks/useFavorites.ts
+export const useFavorites = () => {
+  const { favoriteIds, toggleFavorite, isFavorite } = useFavoritesStore()
+  return { favoriteIds, toggleFavorite, isFavorite }
+}
 ```
-infra/
-  tmdb/
-    tmdb.client.ts       # baseUrl, headers, timeout, /api no DEV
-    tmdb.movie.repo.ts   # getPopular, search, getDetails (mapeia DTO -> Movie)
-  storage/
-    favorites.repo.ts    # localStorage (web) / Capacitor Preferences (mobile)
-```
 
-**Integração**
-
-- DEV: proxy do Vite em `/api` para evitar CORS.
-- PROD: chamada direta `https://api.themoviedb.org/3` com `api_key` (ou Bearer, ciente do trade-off).
+**O que fazem:** Encapsulam toda a complexidade. Componente só usa o que precisa.
 
 ---
 
-## 7. Aplicação (rotas, estado, UI)
+## Componentes principais
 
-- **Rotas**: `IonReactRouter` + `IonRouterOutlet`.
-- **Estado**:
+**O que cada um faz:**
 
-  - `moviesApi` (RTK Query) para populares, busca, detalhes.
-  - `favoritesSlice` com IDs e mapa (persistência via storage).
+- `MovieCard`: Mostra poster + info + botão favoritar
+- `MovieGrid`: Lista organizada de cards
+- `InfiniteScroll`: Carrega mais filmes conforme rola
+- `SearchBar`: Campo de busca com delay
+- `LoadingSpinner`: Rodinha de carregamento
+- `ErrorMessage`: Aviso quando dá erro
 
-- **UI Ionic**:
+**Padrões Ionic que usamos:**
 
-  - Home/Search: grid responsivo (IonGrid/IonCol) + `IonInfiniteScroll`.
-  - Detalhes: poster, metadados, ação de favoritar.
-  - Favoritos: listar, remover, ordenar (título/nota).
-  - Feedback: `IonSkeletonText`, `IonSpinner`, `IonToast`.
-  - Refresh: `IonRefresher` chamando `refetch()`.
-
----
-
-## 8. Testes
-
-```
-tests/
-  domain/
-    movie.service.test.ts            # unit (regras puras)
-  infra/
-    tmdb.movie.repo.test.ts          # integração com MSW
-  app/
-    store.test.ts                    # queries/slices
-  ui/
-    HomePage.test.tsx                # render, infinito, loading/erro
-    FavoritesPage.test.tsx           # ordenar/remover
-```
-
-Padrões: Jest + React Testing Library (+ MSW para API).
+- `IonGrid` → layout responsivo
+- `IonRefresher` → puxa pra atualizar
+- `IonToast` → notificações
+- `IonSkeletonText` → placeholder enquanto carrega
 
 ---
 
-## 9. Variáveis de Ambiente
+## Configuração
 
+**Para development (evita CORS):**
+
+```typescript
+// vite.config.ts
+export default defineConfig({
+  server: {
+    proxy: {
+      '/api': 'https://api.themoviedb.org/3', // redireciona chamadas
+    },
+  },
+})
 ```
-# .env.example
-VITE_TMDB_API_V3_KEY=
-VITE_TMDB_API_V4_READ_TOKEN=
-VITE_TMDB_BASE_URL=https://api.themoviedb.org/3
+
+**Variáveis de ambiente:**
+
+```bash
+# .env
+VITE_TMDB_API_V3_KEY=sua_chave_aqui
 VITE_TMDB_IMG_BASE=https://image.tmdb.org/t/p
 ```
 
 ---
 
-## 10. CI/CD e Build
+## Como testar
 
-- **CI (GitHub Actions)**: `typecheck`, `lint`, `test`, `build`.
-- **Web/PWA**: deploy em Vercel/Netlify (publica `dist/`).
-- **Mobile (Capacitor)**: `npx cap copy && npx cap open android/ios` para gerar build nativo.
+```
+src/__tests__/
+  components/     # Testa se componentes renderizam direito
+  pages/         # Testa fluxos completos das telas
+  hooks/         # Testa lógica isolada
+  services/      # Testa chamadas de API
+```
+
+**Ferramentas:** Jest + Testing Library (simula usuário real)
 
 ---
 
-## 11. Critérios do Teste atendidos
+## Como publicar
 
-- Home (populares), Detalhe, Favoritos, Busca.
-- Estado global (Redux Toolkit + RTK Query), loading/erro.
-- Grid responsivo, paginação/infinite scroll.
-- Testes por camada.
-- Deploy pronto e variáveis documentadas.
+**Web:**
+
+```bash
+npm run build  # gera pasta dist/
+# Sobe pro Vercel/Netlify
+```
+
+**Mobile:**
+
+```bash
+npx cap copy && npx cap open android
+# Abre Android Studio pra gerar APK
+```
+
+**PWA:** Automático! Vite gera service worker sozinho.
