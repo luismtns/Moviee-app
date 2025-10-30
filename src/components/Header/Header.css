@@ -1,0 +1,74 @@
+.main-header {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+.main-header ion-toolbar {
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --min-height: 60px;
+}
+
+/* Logo Section */
+.logo-section {
+  flex: 0 0 auto;
+}
+
+.header-title {
+  --color: var(--ion-color-primary);
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 0;
+  margin: 0;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: var(--ion-margin, 8px);
+}
+
+.logo-container ion-img {
+  height: 32px;
+  width: auto;
+}
+
+.app-name {
+  color: var(--ion-color-primary);
+  font-weight: 700;
+  font-size: 1.4rem;
+}
+
+/* Search Section */
+
+.desktop-search {
+  display: none;
+}
+
+/* Navigation Section */
+.navigation-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+/* Mobile Search Row */
+
+.mobile-search-row .search-bar {
+  margin: 0;
+}
+
+/* Responsive Design */
+@media (min-width: 768px) {
+  .desktop-search {
+    display: block !important;
+  }
+}
+
+@media (min-width: 992px) {
+  .app-name {
+    font-size: 1.5rem;
+  }
+}
