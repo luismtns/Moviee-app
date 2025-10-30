@@ -1,3 +1,4 @@
+import queryClient from '@/lib/query.client'
 import {
   IonApp,
   IonIcon,
@@ -9,13 +10,13 @@ import {
   setupIonicReact,
 } from '@ionic/react'
 import { IonReactRouter } from '@ionic/react-router'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { heart, home, search } from 'ionicons/icons'
 import { Redirect, Route } from 'react-router-dom'
-import Tab1 from './pages/Tab1'
-import Tab2 from './pages/Tab2'
-import Tab3 from './pages/Tab3'
+
+import Home from './pages/Home/Home'
+import Tab3 from './pages/Search/Tab3'
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css'
@@ -45,20 +46,10 @@ import '@ionic/react/css/text-transformation.css'
 import '@ionic/react/css/palettes/dark.system.css'
 
 /* Theme variables */
+import FavoritesPage from '@/pages/FavoritesPage/FavoritesPage'
 import './theme/variables.css'
 
 setupIonicReact()
-
-// Criar QueryClient para React Query
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 5 * 60 * 1000, // 5 minutos
-      retry: 3,
-      refetchOnWindowFocus: false,
-    },
-  },
-})
 
 const App: React.FC = () => (
   <QueryClientProvider client={queryClient}>
@@ -66,25 +57,25 @@ const App: React.FC = () => (
       <IonReactRouter>
         <IonTabs>
           <IonRouterOutlet>
-            <Route exact path='/tab1'>
-              <Tab1 />
+            <Route exact path='/home'>
+              <Home />
             </Route>
-            <Route exact path='/tab2'>
-              <Tab2 />
+            <Route exact path='/favorites'>
+              <FavoritesPage />
             </Route>
             <Route path='/tab3'>
               <Tab3 />
             </Route>
             <Route exact path='/'>
-              <Redirect to='/tab1' />
+              <Redirect to='/home' />
             </Route>
           </IonRouterOutlet>
           <IonTabBar slot='bottom'>
-            <IonTabButton tab='tab1' href='/tab1'>
+            <IonTabButton tab='home' href='/home'>
               <IonIcon aria-hidden='true' icon={home} />
-              <IonLabel>Populares</IonLabel>
+              <IonLabel>Home</IonLabel>
             </IonTabButton>
-            <IonTabButton tab='tab2' href='/tab2'>
+            <IonTabButton tab='favorites' href='/favorites'>
               <IonIcon aria-hidden='true' icon={heart} />
               <IonLabel>Favoritos</IonLabel>
             </IonTabButton>

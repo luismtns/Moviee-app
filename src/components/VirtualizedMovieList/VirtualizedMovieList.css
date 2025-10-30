@@ -1,0 +1,193 @@
+/* VirtualizedMovieList - Ionic Design System */
+
+.movie-list {
+  --ion-item-padding-start: 16px;
+  --ion-item-padding-end: 16px;
+  --ion-item-padding-top: 8px;
+  --ion-item-padding-bottom: 8px;
+
+  max-width: 900px;
+  margin: 0 auto;
+  min-height: 100vh;
+}
+
+.movie-list-item {
+  --background: transparent;
+  --border-style: none;
+  --inner-border-width: 0;
+  --min-height: auto;
+
+  margin-bottom: 12px;
+  border-radius: var(--ion-border-radius, 8px);
+  transition: --background 0.2s ease;
+}
+
+.movie-list-item:hover {
+  --background: var(--ion-color-light);
+}
+
+/* Ionic virtualization optimizations */
+.movie-list [data-virtuoso-scroller] {
+  padding-bottom: var(--ion-safe-area-bottom, 40px);
+  contain: layout style paint;
+  will-change: transform;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .movie-list {
+    --ion-item-padding-start: 12px;
+    --ion-item-padding-end: 12px;
+    max-width: 100%;
+  }
+
+  .movie-list-item {
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .movie-list {
+    --ion-item-padding-start: 8px;
+    --ion-item-padding-end: 8px;
+  }
+
+  .movie-list-item {
+    margin-bottom: 8px;
+  }
+}
+
+/* Accessibility & Performance */
+@media (prefers-reduced-motion: reduce) {
+  .movie-list [data-virtuoso-scroller] {
+    scroll-behavior: auto;
+  }
+
+  .movie-list-item {
+    transition: none;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .movie-list-item:hover {
+    --background: var(--ion-color-dark-tint);
+  }
+}
+
+/* Focus management for keyboard navigation */
+.movie-list-item:focus-within {
+  outline: 2px solid var(--ion-color-primary);
+  outline-offset: 2px;
+  border-radius: var(--ion-border-radius, 8px);
+}
+
+/* Horizontal Movie List */
+.movie-list-horizontal {
+  --ion-item-padding-start: 16px;
+  --ion-item-padding-end: 16px;
+  --ion-item-padding-top: 8px;
+  --ion-item-padding-bottom: 8px;
+
+  width: 100%;
+  overflow: hidden;
+}
+
+.movie-list-item-horizontal {
+  --background: transparent;
+  --border-style: none;
+  --inner-border-width: 0;
+  --min-height: auto;
+
+  display: inline-block;
+  margin-right: 16px;
+  width: 200px;
+  flex-shrink: 0;
+  border-radius: var(--ion-border-radius, 8px);
+  transition: --background 0.2s ease;
+}
+
+.movie-list-item-horizontal:last-child {
+  margin-right: 16px;
+}
+
+.movie-list-item-horizontal:hover {
+  --background: var(--ion-color-light);
+}
+
+/* Horizontal virtualization optimizations */
+.movie-list-horizontal [data-virtuoso-scroller] {
+  padding-right: var(--ion-safe-area-right, 16px);
+  contain: layout style paint;
+  will-change: transform;
+  display: flex;
+  align-items: flex-start;
+}
+
+/* Loading footer for horizontal list */
+.loading-footer-horizontal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 100%;
+  margin-left: 8px;
+}
+
+/* Responsive adjustments for horizontal */
+@media (max-width: 768px) {
+  .movie-list-horizontal {
+    --ion-item-padding-start: 12px;
+    --ion-item-padding-end: 12px;
+  }
+
+  .movie-list-item-horizontal {
+    margin-right: 12px;
+    width: 180px;
+  }
+
+  .movie-list-item-horizontal:last-child {
+    margin-right: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .movie-list-horizontal {
+    --ion-item-padding-start: 8px;
+    --ion-item-padding-end: 8px;
+  }
+
+  .movie-list-item-horizontal {
+    margin-right: 10px;
+    width: 160px;
+  }
+
+  .movie-list-item-horizontal:last-child {
+    margin-right: 10px;
+  }
+}
+
+/* Dark mode support for horizontal */
+@media (prefers-color-scheme: dark) {
+  .movie-list-item-horizontal:hover {
+    --background: var(--ion-color-dark-tint);
+  }
+}
+
+/* Focus management for horizontal keyboard navigation */
+.movie-list-item-horizontal:focus-within {
+  outline: 2px solid var(--ion-color-primary);
+  outline-offset: 2px;
+  border-radius: var(--ion-border-radius, 8px);
+}
+
+/* Accessibility for horizontal list */
+@media (prefers-reduced-motion: reduce) {
+  .movie-list-horizontal [data-virtuoso-scroller] {
+    scroll-behavior: auto;
+  }
+
+  .movie-list-item-horizontal {
+    transition: none;
+  }
+}

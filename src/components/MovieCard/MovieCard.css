@@ -1,0 +1,34 @@
+.movie-card {
+  margin: var(--ion-padding, 16px);
+  border-radius: var(--border-radius, 8px);
+  overflow: hidden;
+}
+
+.movie-card ion-card-header {
+  padding-bottom: var(--ion-padding, 8px);
+}
+
+.movie-card ion-card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--ion-color-dark);
+}
+
+.movie-card ion-card-subtitle {
+  color: var(--ion-color-medium);
+  font-size: 0.9rem;
+}
+
+.movie-card ion-card-content {
+  padding-top: 0;
+}
+
+@media (max-width: 768px) {
+  .movie-card {
+    margin: var(--ion-padding-small, 8px);
+  }
+
+  .movie-card ion-card-title {
+    font-size: 1rem;
+  }
+}

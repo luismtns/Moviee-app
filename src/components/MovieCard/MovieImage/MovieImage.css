@@ -1,0 +1,17 @@
+.movie-image {
+  height: 300px;
+  object-fit: cover;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .movie-image {
+    height: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .movie-image {
+    height: 200px;
+  }
+}

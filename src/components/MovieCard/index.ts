@@ -1,0 +1,5 @@
+export { default as MovieActions } from './MovieActions/MovieActions'
+export { default as MovieFavoriteButton } from './MovieFavoriteButton/MovieFavoriteButton'
+export { default as MovieImage } from './MovieImage/MovieImage'
+export { default as MovieInfo } from './MovieInfo/MovieInfo'
+export { default as MovieRating } from './MovieRating/MovieRating'

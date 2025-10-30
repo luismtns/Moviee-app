@@ -1,34 +1,25 @@
+import MovieCard from '@/components/MovieCard/MovieCard'
 import { useSearchMovies } from '@/hooks/useMovies'
-import { useFavoritesStore } from '@/stores/favoritesStore'
-import { Movie } from '@/types/Movie'
 import {
-  IonButton,
   IonContent,
   IonHeader,
-  IonIcon,
-  IonImg,
-  IonItem,
-  IonLabel,
   IonList,
   IonPage,
   IonSearchbar,
   IonSpinner,
   IonText,
-  IonThumbnail,
   IonTitle,
   IonToolbar,
 } from '@ionic/react'
-import { heart, heartOutline } from 'ionicons/icons'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import './Tab3.css'
 
 const Tab3: React.FC = () => {
   const [searchText, setSearchText] = useState('')
   const { data: searchResults, isLoading, error } = useSearchMovies(searchText)
-  const { isFavorite, toggleFavorite } = useFavoritesStore()
 
-  // Flatten infinite data
-  const movies = searchResults?.pages.flatMap((page) => page.results) || []
+  // Flatten infinite data with memoization
+  const movies = useMemo(() => searchResults?.pages.flatMap((page) => page.results) || [], [searchResults])
 
   return (
     <IonPage>
@@ -87,34 +78,8 @@ const Tab3: React.FC = () => {
 
         {movies.length > 0 && (
           <IonList>
-            {movies.map((movie: Movie) => (
-              <IonItem key={movie.id}>
-                <IonThumbnail slot='start'>
-                  <IonImg
-                    src={
-                      movie.poster_path
-                        ? `https://image.tmdb.org/t/p/w200${movie.poster_path}`
-                        : 'https://via.placeholder.com/200x300?text=No+Image'
-                    }
-                    alt={movie.title}
-                  />
-                </IonThumbnail>
-                <IonLabel>
-                  <h2>{movie.title}</h2>
-                  <p>{movie.release_date?.split('-')[0]}</p>
-                  <p>{movie.overview?.substring(0, 100)}...</p>
-                  <p>
-                    <strong>Nota:</strong> {movie.vote_average?.toFixed(1)}/10
-                  </p>
-                </IonLabel>
-                <IonButton
-                  slot='end'
-                  fill='clear'
-                  color={isFavorite(movie.id) ? 'danger' : 'medium'}
-                  onClick={() => toggleFavorite(movie.id)}>
-                  <IonIcon icon={isFavorite(movie.id) ? heart : heartOutline} />
-                </IonButton>
-              </IonItem>
+            {movies.map((movie) => (
+              <MovieCard key={movie.id} movie={movie} />
             ))}
           </IonList>
         )}
