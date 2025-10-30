@@ -43,13 +43,14 @@ App de filmes usando **Ionic React** que consome a **API do TMDB**.
 - **APIs**: React Query (TanStack Query)
 - **Estado Local**: Zustand
 - **Mobile**: Capacitor
-- **Testes**: Jest + Testing Library
+- **Testes**: Vitest + React Testing Library
 
 **Por que essa stack?**
 
 - React Query: cache inteligente e sync automático
 - Zustand: simples e leve para favoritos
 - Ionic: componentes prontos para mobile
+- Vitest: mais rápido que Jest, padrão oficial do Ionic
 
 ---
 
@@ -57,15 +58,23 @@ App de filmes usando **Ionic React** que consome a **API do TMDB**.
 
 ```
 src/
-  components/     # Peças reutilizáveis (cards, grids, loading)
-  pages/          # Telas do app (home, detalhes, favoritos, busca)
-  services/       # Chamadas para APIs externas
-  stores/         # Estados globais (favoritos, preferências)
-  hooks/          # Lógica customizada reutilizável
-  types/          # Definições TypeScript
-  utils/          # Funções auxiliares
-  App.tsx
+├── components/           # Componentes reutilizáveis
+│   └── NomeComponente/   # Cada pasta segue o mesmo padrão:
+│       ├── NomeComponente.tsx       # Código do componente
+│       ├── NomeComponente.test.tsx  # Testes
+│       ├── NomeComponente.stories.tsx # Stories (futuro)
+│       └── SubComponentes/          # Se tiver filhos, mesma estrutura
+├── pages/                # Telas do app
+├── services/             # Chamadas para APIs externas
+├── stores/               # Estados globais (favoritos, preferências)
+├── hooks/                # Lógica customizada reutilizável
+├── types/                # Definições TypeScript
+└── utils/                # Funções auxiliares
 ```
+
+**Regra simples:**
+
+Tudo fica junto na pasta do componente. Se precisar de teste ou story, vai na mesma pasta.
 
 ---
 
@@ -161,14 +170,31 @@ export const useFavorites = () => {
 
 ## Componentes principais
 
-**O que cada um faz:**
+**Como são organizados:**
 
-- `MovieCard`: Mostra poster + info + botão favoritar
-- `MovieGrid`: Lista organizada de cards
-- `InfiniteScroll`: Carrega mais filmes conforme rola
-- `SearchBar`: Campo de busca com delay
-- `LoadingSpinner`: Rodinha de carregamento
-- `ErrorMessage`: Aviso quando dá erro
+Cada componente fica numa pasta com tudo que precisa:
+
+- `.tsx` → o código
+- `.test.tsx` → os testes
+- `.stories.tsx` → documentação visual
+
+**Exemplo:**
+
+```
+MovieCard/
+├── MovieCard.tsx       # Componente principal
+├── MovieCard.test.tsx  # Teste
+├── MovieImage/         # Se tiver partes menores,
+├── MovieInfo/          # cada uma segue o mesmo padrão
+└── MovieActions/       # com sua pasta e arquivos
+```
+
+**Componentes que temos:**
+
+- `MovieCard`: Mostra filme (poster + info + favoritar)
+- `Loading`: Rodinha de carregamento
+- `ErrorBoundary`: Quando dá erro
+- `PopularMoviesDemo`: Lista de filmes
 
 **Padrões Ionic que usamos:**
 
@@ -180,19 +206,6 @@ export const useFavorites = () => {
 ---
 
 ## Configuração
-
-**Para development (evita CORS):**
-
-```typescript
-// vite.config.ts
-export default defineConfig({
-  server: {
-    proxy: {
-      '/api': 'https://api.themoviedb.org/3', // redireciona chamadas
-    },
-  },
-})
-```
 
 **Variáveis de ambiente:**
 
@@ -206,15 +219,12 @@ VITE_TMDB_IMG_BASE=https://image.tmdb.org/t/p
 
 ## Como testar
 
-```
-src/__tests__/
-  components/     # Testa se componentes renderizam direito
-  pages/         # Testa fluxos completos das telas
-  hooks/         # Testa lógica isolada
-  services/      # Testa chamadas de API
-```
+Cada pasta tem seus próprios testes. Simples assim.
 
-**Ferramentas:** Jest + Testing Library (simula usuário real)
+```bash
+pnpm test          # roda todos os testes
+pnpm test NomePasta # roda só de uma pasta
+```
 
 ---
 
