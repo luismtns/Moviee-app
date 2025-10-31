@@ -23,6 +23,15 @@ export const useMovieDetails = (movieId: number) => {
   })
 }
 
+export const useFavoriteMovies = (movieIds: number[]) => {
+  return useQuery<MovieDetails[], Error>({
+    queryKey: ['movie', 'details', 'favorites', movieIds.map((id) => id).join(',')],
+    queryFn: () => Promise.all(movieIds.map((id) => tmdbService.getDetails(id))),
+    enabled: !!movieIds.length,
+    staleTime: 10 * 60 * 1_000,
+  })
+}
+
 export const useSearchMovies = (query: string, enabled: boolean = true) => {
   return useInfiniteQuery<MoviesResponse, Error>({
     queryKey: ['movies', 'search', query],
