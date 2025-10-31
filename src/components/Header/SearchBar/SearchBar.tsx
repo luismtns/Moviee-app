@@ -1,35 +1,37 @@
-import { useDebounce } from '@/hooks/useDebounce'
 import { useSearchStore } from '@/stores/searchStore'
 import { IonSearchbar } from '@ionic/react'
 import React from 'react'
+import { useDebounceCallback } from 'usehooks-ts'
 
 interface SearchBarProps {
-  onSearch?: (term: string) => void
   placeholder?: string
 }
 
-export const SearchBar: React.FC<SearchBarProps> = ({ onSearch, placeholder = 'Buscar Filmes...' }) => {
+export const SearchBar: React.FC<SearchBarProps> = ({ placeholder = 'Buscar Filmes...' }) => {
   const { searchTerm, setSearchTerm } = useSearchStore()
-  const debouncedSearchTerm = useDebounce(searchTerm, 500)
+  const [localTerm, setLocalTerm] = React.useState(searchTerm)
 
-  React.useEffect(() => {
-    if (debouncedSearchTerm) {
-      onSearch?.(debouncedSearchTerm)
-    }
-  }, [debouncedSearchTerm, onSearch])
+  const setDebouncedTerm = useDebounceCallback((term: string) => {
+    setSearchTerm(term)
+  }, 300)
+
+  const handleChange = (value: string) => {
+    setLocalTerm(value)
+    setDebouncedTerm(value)
+  }
 
   const handleInput = (e: CustomEvent) => {
     const term = e.detail.value
-    setSearchTerm(term)
+    handleChange(term)
   }
 
   const handleClear = () => {
-    setSearchTerm('')
+    handleChange('')
   }
 
   return (
     <IonSearchbar
-      value={searchTerm}
+      value={localTerm}
       placeholder={placeholder}
       onIonInput={handleInput}
       onIonClear={handleClear}

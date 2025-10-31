@@ -1,31 +1,10 @@
+import Logo from '@/components/Logo/Logo'
 import { IonCol, IonGrid, IonHeader, IonRow, IonTitle, IonToolbar } from '@ionic/react'
-import React from 'react'
-import { useSearchStore } from '../../stores/searchStore'
-import Logo from '../Logo/Logo'
 import './Header.css'
 import { Navigation } from './Navigation/Navigation'
 import { SearchBar } from './SearchBar/SearchBar'
 
-interface HeaderProps {
-  onSearch?: (term: string) => void
-  showSearch?: boolean
-}
-
-export const Header: React.FC<HeaderProps> = ({ onSearch, showSearch = true }) => {
-  const { searchTerm, clearSearch } = useSearchStore()
-  const [isSearchExpanded, setIsSearchExpanded] = React.useState(false)
-
-  const handleSearchToggle = () => {
-    if (isSearchExpanded && searchTerm) {
-      clearSearch()
-    }
-    setIsSearchExpanded(!isSearchExpanded)
-  }
-
-  const handleSearch = (term: string) => {
-    onSearch?.(term)
-  }
-
+const Header = () => {
   return (
     <IonHeader color='dark' className='main-header'>
       <IonToolbar>
@@ -40,7 +19,9 @@ export const Header: React.FC<HeaderProps> = ({ onSearch, showSearch = true }) =
               </div>
             </IonCol>
 
-            <IonCol sizeLg='4'>{showSearch && <SearchBar onSearch={handleSearch} />}</IonCol>
+            <IonCol sizeLg='4'>
+              <SearchBar />
+            </IonCol>
 
             <IonCol size='auto' className='ion-justify-self-end'>
               <Navigation />
@@ -51,3 +32,4 @@ export const Header: React.FC<HeaderProps> = ({ onSearch, showSearch = true }) =
     </IonHeader>
   )
 }
+export default Header
