@@ -1,7 +1,7 @@
 import { useSearchStore } from '@/stores/searchStore'
 import { render, screen } from '@testing-library/react'
 import { vi } from 'vitest'
-import { Header } from './Header'
+import Header from './Header'
 
 vi.mock('react-router-dom', () => ({
   useHistory: () => ({ push: vi.fn() }),
@@ -34,17 +34,10 @@ describe('Header', () => {
     expect(screen.getByText('Moviee')).toBeTruthy()
   })
 
-  it('shows search when enabled', () => {
-    render(<Header showSearch={true} />)
+  it('renders searchbar', () => {
+    render(<Header />)
 
     const searchbar = screen.getByPlaceholderText('Buscar Filmes...')
     expect(searchbar).toBeTruthy()
-  })
-
-  it('hides search when disabled', () => {
-    render(<Header showSearch={false} />)
-
-    const searchbar = screen.queryByPlaceholderText('Buscar Filmes...')
-    expect(searchbar).toBeFalsy()
   })
 })
