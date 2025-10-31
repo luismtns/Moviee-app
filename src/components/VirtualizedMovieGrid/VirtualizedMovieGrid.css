@@ -1,0 +1,22 @@
+.virtuoso-grid {
+  scroll-behavior: smooth;
+}
+
+.virtuoso-grid .movie-grid-col {
+  /* height: ; */
+  padding: var(--ion-padding, 16px);
+  min-height: calc(var(--movie-card-height, 32rem) + (var(--ion-padding, 16px) * 2));
+}
+
+@supports (padding: max(0px)) {
+  .virtuoso-grid {
+    padding-left: max(0px, env(safe-area-inset-left));
+    padding-right: max(0px, env(safe-area-inset-right));
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .virtuoso-grid {
+    background-color: var(--ion-background-color, transparent);
+  }
+}
