@@ -93,7 +93,7 @@ Tela → Hook → React Query → API TMDB
 1. Usuário abre o app
 2. React Query busca filmes e guarda em cache
 3. Usuário favorita → Zustand salva no celular
-4. Próxima vez: dados já estão lá!
+4. Próxima vez: dados já estão lá
 
 ---
 
@@ -143,7 +143,7 @@ export const useFavoritesStore = create(
 
 ---
 
-## Hooks (lógica reutilizável)
+## Hooks
 
 Facilitam a vida dos componentes:
 
@@ -189,20 +189,6 @@ MovieCard/
 └── MovieActions/       # com sua pasta e arquivos
 ```
 
-**Componentes que temos:**
-
-- `MovieCard`: Mostra filme (poster + info + favoritar)
-- `Loading`: Rodinha de carregamento
-- `ErrorBoundary`: Quando dá erro
-- `PopularMoviesDemo`: Lista de filmes
-
-**Padrões Ionic que usamos:**
-
-- `IonGrid` → layout responsivo
-- `IonRefresher` → puxa pra atualizar
-- `IonToast` → notificações
-- `IonSkeletonText` → placeholder enquanto carrega
-
 ---
 
 ## Configuração
@@ -219,7 +205,7 @@ VITE_TMDB_IMG_BASE=https://image.tmdb.org/t/p
 
 ## Como testar
 
-Cada pasta tem seus próprios testes. Simples assim.
+Cada pasta tem seus próprios testes
 
 ```bash
 pnpm test          # roda todos os testes
@@ -244,4 +230,4 @@ npx cap copy && npx cap open android
 # Abre Android Studio pra gerar APK
 ```
 
-**PWA:** Automático! Vite gera service worker sozinho.
+**PWA:** Vite gera service worker sozinho.
