@@ -17,6 +17,4 @@ const MovieRating: React.FC<MovieRatingProps> = memo(({ rating, showIcon = true,
   )
 })
 
-MovieRating.displayName = 'MovieRating'
-
 export default MovieRating

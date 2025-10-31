@@ -1,34 +1,11 @@
+:root {
+  --movie-card-height: 24rem;
+  --movie-card-border-radius: 0.5rem;
+}
 .movie-card {
-  margin: var(--ion-padding, 16px);
-  border-radius: var(--border-radius, 8px);
+  border-radius: var(--movie-card-border-radius, 0.5rem);
   overflow: hidden;
-}
-
-.movie-card ion-card-header {
-  padding-bottom: var(--ion-padding, 8px);
-}
-
-.movie-card ion-card-title {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--ion-color-dark);
-}
-
-.movie-card ion-card-subtitle {
-  color: var(--ion-color-medium);
-  font-size: 0.9rem;
-}
-
-.movie-card ion-card-content {
-  padding-top: 0;
-}
-
-@media (max-width: 768px) {
-  .movie-card {
-    margin: var(--ion-padding-small, 8px);
-  }
-
-  .movie-card ion-card-title {
-    font-size: 1rem;
-  }
+  height: var(--movie-card-height, 24rem);
+  margin: 0;
+  position: relative;
 }

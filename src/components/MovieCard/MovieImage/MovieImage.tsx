@@ -1,6 +1,7 @@
 import { movieUtils } from '@/utils/movie.utils'
-import { IonImg } from '@ionic/react'
-import { memo } from 'react'
+import { IonImg, IonSkeletonText } from '@ionic/react'
+import clsx from 'clsx'
+import { memo, useMemo, useState } from 'react'
 import './MovieImage.css'
 
 interface MovieImageProps {
@@ -10,11 +11,38 @@ interface MovieImageProps {
 }
 
 const MovieImage: React.FC<MovieImageProps> = memo(({ posterPath, title, className = '' }) => {
-  const imageUrl = movieUtils.getImageUrl(posterPath) || '/placeholder.jpg'
+  const imageUrl = useMemo(() => movieUtils.getImageUrl(posterPath, 'w500'), [posterPath])
 
-  return <IonImg src={imageUrl} alt={`Poster do filme ${title}`} className={`movie-image ${className}`} />
+  const [isLoading, setIsLoading] = useState(true)
+  const handleImageLoad = () => {
+    setIsLoading(false)
+  }
+
+  return (
+    <div className='movie-image-wrapper'>
+      <IonSkeletonText
+        animated={isLoading}
+        className={clsx(
+          'movie-image placeholder',
+          {
+            'ion-display-none': !isLoading,
+          },
+          className
+        )}></IonSkeletonText>
+      <IonImg
+        src={imageUrl}
+        alt={`Poster do filme ${title}`}
+        className={clsx(
+          'movie-image',
+          {
+            loading: isLoading,
+          },
+          className
+        )}
+        onIonImgDidLoad={handleImageLoad}
+      />
+    </div>
+  )
 })
-
-MovieImage.displayName = 'MovieImage'
 
 export default MovieImage

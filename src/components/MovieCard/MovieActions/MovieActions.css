@@ -1,11 +1,19 @@
-.movie-actions ion-grid {
+.movie-header {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: var(--ion-padding, 8px);
+  width: 100%;
+}
+.movie-header .ion-grid {
   padding: 0;
+  width: 100%;
 }
 
-.movie-actions ion-row {
+.movie-header .ion-row {
   margin: 0;
 }
 
-.movie-actions ion-col {
+.movie-header .ion-col {
   padding: 0;
 }

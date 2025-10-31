@@ -1,24 +1,21 @@
-import { IonCardHeader, IonCardSubtitle, IonCardTitle } from '@ionic/react'
+import { IonCardContent, IonCardSubtitle, IonCardTitle } from '@ionic/react'
 import { memo } from 'react'
+import './MovieInfo.css'
 
 interface MovieInfoProps {
   title: string
   releaseDate?: string
-  subtitle?: string
 }
 
-const MovieInfo: React.FC<MovieInfoProps> = memo(({ title, releaseDate, subtitle }) => {
+const MovieInfo: React.FC<MovieInfoProps> = memo(({ title, releaseDate }) => {
   const releaseYear = releaseDate ? new Date(releaseDate).getFullYear() : ''
-  const displaySubtitle = subtitle || releaseYear
 
   return (
-    <IonCardHeader>
-      <IonCardTitle>{title}</IonCardTitle>
-      {displaySubtitle && <IonCardSubtitle>{displaySubtitle}</IonCardSubtitle>}
-    </IonCardHeader>
+    <IonCardContent className='card-content'>
+      {releaseYear && <IonCardSubtitle className='card-subtitle'>{releaseYear}</IonCardSubtitle>}
+      <IonCardTitle className='card-title'>{title}</IonCardTitle>
+    </IonCardContent>
   )
 })
-
-MovieInfo.displayName = 'MovieInfo'
 
 export default MovieInfo

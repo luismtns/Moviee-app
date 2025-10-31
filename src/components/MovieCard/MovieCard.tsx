@@ -6,10 +6,10 @@ import { MovieActions, MovieFavoriteButton, MovieImage, MovieInfo, MovieRating }
 
 interface MovieCardProps {
   movie: Movie
-  onFavoriteToggle?: (movieId: number, title: string, isFavorite: boolean) => void
+  // onFavoriteToggle?: (movieId: number, title: string, isFavorite: boolean) => void
 }
 
-const MovieCard: React.FC<MovieCardProps> = memo(({ movie, onFavoriteToggle }) => {
+const MovieCard: React.FC<MovieCardProps> = memo(({ movie }) => {
   return (
     <IonCard className='movie-card'>
       <MovieImage posterPath={movie.poster_path} title={movie.title} />
@@ -18,12 +18,10 @@ const MovieCard: React.FC<MovieCardProps> = memo(({ movie, onFavoriteToggle }) =
 
       <MovieActions>
         <MovieRating rating={movie.vote_average} />
-        <MovieFavoriteButton movieId={movie.id} movieTitle={movie.title} onToggle={onFavoriteToggle} />
+        <MovieFavoriteButton movieId={movie.id} movieTitle={movie.title} />
       </MovieActions>
     </IonCard>
   )
 })
-
-MovieCard.displayName = 'MovieCard'
 
 export default MovieCard
