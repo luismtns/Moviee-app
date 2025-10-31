@@ -1,64 +1,31 @@
-import MovieCard from '@/components/MovieCard/MovieCard'
+import Header from '@/components/Header/Header'
+import VirtualizedMovieGrid from '@/components/VirtualizedMovieGrid/VirtualizedMovieGrid'
 import { useFavorites } from '@/hooks/useFavorites'
-import { useMovieDetails } from '@/hooks/useMovies'
-import { IonCard, IonCardContent, IonContent, IonHeader, IonPage, IonText, IonTitle, IonToolbar } from '@ionic/react'
-import React, { memo } from 'react'
+import { useFavoriteMovies } from '@/hooks/useMovies'
+import { Movie } from '@/types/Movie'
+import { IonContent, IonPage } from '@ionic/react'
+import React from 'react'
 import './FavoritesPage.css'
 
 const FavoritesPage: React.FC = () => {
-  const { favoriteIds, removeFavorite } = useFavorites()
+  const { favoriteIds } = useFavorites()
+  const { data: detailedMovies } = useFavoriteMovies(favoriteIds)
 
+  const allMovies = detailedMovies?.map((movie) => ({
+    id: movie.id,
+    title: movie.title,
+    poster_path: movie.poster_path,
+    release_date: movie.release_date,
+    vote_average: movie.vote_average,
+  }))
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Favoritos</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent fullscreen>
-        <IonHeader collapse='condense'>
-          <IonToolbar>
-            <IonTitle size='large'>Favoritos</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-
-        {favoriteIds.length === 0 ? (
-          <div style={{ textAlign: 'center', marginTop: '50px' }}>
-            <IonText color='medium'>
-              <h2>Nenhum filme favorito ainda</h2>
-              <p>Adicione filmes aos favoritos na aba Popular</p>
-            </IonText>
-          </div>
-        ) : (
-          <div style={{ padding: '16px' }}>
-            {favoriteIds.map((movieId: number) => (
-              <FavoriteMovieCard key={movieId} movieId={movieId} onRemove={removeFavorite} />
-            ))}
-          </div>
-        )}
+      <Header />
+      <IonContent scrollY={false}>
+        <VirtualizedMovieGrid movies={allMovies?.map((movie) => movie as Movie) || []} />
       </IonContent>
     </IonPage>
   )
 }
-
-const FavoriteMovieCard: React.FC<{ movieId: number; onRemove: (id: number) => void }> = memo(
-  ({ movieId, onRemove }) => {
-    const { data: movie, isLoading } = useMovieDetails(movieId)
-
-    if (isLoading) {
-      return (
-        <IonCard>
-          <IonCardContent>
-            <IonText>Carregando...</IonText>
-          </IonCardContent>
-        </IonCard>
-      )
-    }
-
-    if (!movie) return null
-
-    return <MovieCard movie={movie} />
-  }
-)
 
 export default FavoritesPage
