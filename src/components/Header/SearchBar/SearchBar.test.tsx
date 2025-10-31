@@ -34,11 +34,4 @@ describe('SearchBar', () => {
     const searchbar = screen.getByPlaceholderText('Buscar Filmes...')
     expect(searchbar).toBeTruthy()
   })
-
-  it('accepts onSearch callback', () => {
-    const mockOnSearch = vi.fn()
-    render(<SearchBar onSearch={mockOnSearch} />)
-
-    expect(mockOnSearch).toBeDefined()
-  })
 })
