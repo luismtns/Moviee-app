@@ -1,4 +1,5 @@
 import queryClient from '@/lib/query.client'
+import ToastProvider from '@/components/ToastProvider'
 import {
   IonApp,
   IonIcon,
@@ -15,8 +16,9 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { heart, home, search } from 'ionicons/icons'
 import { Redirect, Route } from 'react-router-dom'
 
-import Home from './pages/Home/Home'
-import Tab3 from './pages/Search/Tab3'
+import Home from '@/pages/Home/Home'
+import FavoritesPage from '@/pages/FavoritesPage/FavoritesPage'
+import Tab3 from '@/pages/Search/Tab3'
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css'
@@ -46,7 +48,6 @@ import '@ionic/react/css/text-transformation.css'
 import '@ionic/react/css/palettes/dark.system.css'
 
 /* Theme variables */
-import FavoritesPage from '@/pages/FavoritesPage/FavoritesPage'
 import './theme/variables.css'
 
 setupIonicReact()
@@ -86,9 +87,10 @@ const App: React.FC = () => (
           </IonTabBar>
         </IonTabs>
       </IonReactRouter>
+      <ToastProvider />
     </IonApp>
     <ReactQueryDevtools initialIsOpen={false} />
   </QueryClientProvider>
-)
+  )
 
 export default App
