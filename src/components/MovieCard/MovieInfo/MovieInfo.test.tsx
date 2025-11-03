@@ -2,23 +2,28 @@ import { render } from '@testing-library/react'
 import MovieInfo from './MovieInfo'
 
 describe('MovieInfo', () => {
-  it('renders title in ion-card-title', () => {
+  it('renders title', () => {
     const { container } = render(<MovieInfo title='Inception' />)
 
-    const title = container.querySelector('ion-card-title')
-    expect(title?.textContent).toBe('Inception')
+    expect(container.querySelector('ion-card-title')?.textContent).toBe('Inception')
   })
 
-  it('renders year from release date', () => {
+  it('renders release year', () => {
     const { container } = render(<MovieInfo title='Test' releaseDate='2010-07-16' />)
 
-    const subtitle = container.querySelector('ion-card-subtitle')
-    expect(subtitle?.textContent).toBe('2010')
+    expect(container.querySelector('ion-card-subtitle')?.textContent).toBe('2010')
   })
 
-  it('hides subtitle when no date', () => {
+  it('hides year when no date', () => {
     const { container } = render(<MovieInfo title='Test' />)
 
     expect(container.querySelector('ion-card-subtitle')).toBeFalsy()
+  })
+
+  it('highlights query match', () => {
+    const { container } = render(<MovieInfo title='The Matrix' highlightQuery='matrix' />)
+
+    const mark = container.querySelector('mark')
+    expect(mark?.textContent).toBe('Matrix')
   })
 })

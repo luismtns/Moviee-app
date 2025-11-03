@@ -7,9 +7,10 @@ import { MovieActions, MovieFavoriteButton, MovieImage, MovieInfo, MovieRating }
 
 interface MovieCardProps {
   movie: Movie
+  highlightQuery?: string
 }
 
-const MovieCard: React.FC<MovieCardProps> = memo(({ movie }) => {
+const MovieCard: React.FC<MovieCardProps> = memo(({ movie, highlightQuery }) => {
   const history = useHistory()
 
   const handleCardClick = () => {
@@ -21,7 +22,7 @@ const MovieCard: React.FC<MovieCardProps> = memo(({ movie }) => {
       <div className='movie-card-wrapper'>
         <MovieImage posterPath={movie.poster_path} title={movie.title} />
 
-        <MovieInfo title={movie.title} releaseDate={movie.release_date} />
+        <MovieInfo title={movie.title} releaseDate={movie.release_date} highlightQuery={highlightQuery} />
 
         <MovieActions>
           <MovieRating rating={movie.vote_average} />

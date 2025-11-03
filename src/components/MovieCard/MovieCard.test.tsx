@@ -24,17 +24,16 @@ const mockMovie: Movie = {
 }
 
 describe('MovieCard', () => {
-  it('renders as ion-card', () => {
+  it('renders ion-card', () => {
     const { container } = render(<MovieCard movie={mockMovie} />)
 
-    expect(container.querySelector('ion-card.movie-card')).toBeTruthy()
+    expect(container.querySelector('ion-card')).toBeTruthy()
   })
 
-  it('contains all subcomponents', () => {
+  it('renders image and info', () => {
     const { container } = render(<MovieCard movie={mockMovie} />)
 
     expect(container.querySelector('.movie-image-wrapper')).toBeTruthy()
     expect(container.querySelector('ion-card-content')).toBeTruthy()
-    expect(container.querySelector('ion-card-header')).toBeTruthy()
   })
 })

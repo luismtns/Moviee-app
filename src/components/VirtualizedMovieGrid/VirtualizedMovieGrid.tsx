@@ -1,5 +1,5 @@
 import type { Movie } from '@/types/Movie'
-import { IonCol, IonRow, IonSpinner } from '@ionic/react'
+import { IonCol, IonRow, IonSpinner, IonText } from '@ionic/react'
 import clsx from 'clsx'
 import React, { forwardRef, useMemo, useState } from 'react'
 import { VirtuosoGrid } from 'react-virtuoso'
@@ -8,16 +8,20 @@ import './VirtualizedMovieGrid.css'
 
 interface VirtualizedMovieGridProps {
   movies: Movie[]
+  isPending?: boolean
   onLoadMore?: () => void
   customScrollParent?: HTMLElement
   isFetchingNextPage?: boolean
+  highlightQuery?: string
 }
 
 const VirtualizedMovieGrid: React.FC<VirtualizedMovieGridProps> = ({
   movies,
+  isPending,
   onLoadMore,
   customScrollParent,
   isFetchingNextPage,
+  highlightQuery,
 }) => {
   const [isScrolling, setIsScrolling] = useState(false)
 
@@ -68,8 +72,18 @@ const VirtualizedMovieGrid: React.FC<VirtualizedMovieGridProps> = ({
       )
     )
   }
+  if (isPending) {
+    return (
+      <div className='ion-text-center ion-padding'>
+        <IonSpinner name='crescent' slot='start' />
+        <IonText>
+          <h2>Carregando lista de filmes...</h2>
+        </IonText>
+      </div>
+    )
+  }
 
-  if (movies.length === 0) {
+  if (movies.length === 0 && !isPending) {
     return (
       <div className='ion-text-center ion-padding'>
         <p>Nenhum filme encontrado</p>
@@ -85,7 +99,9 @@ const VirtualizedMovieGrid: React.FC<VirtualizedMovieGridProps> = ({
       customScrollParent={customScrollParent}
       context={{ isScrolling }}
       isScrolling={setIsScrolling}
-      itemContent={(index, movie, { isScrolling }) => <MovieCard key={`movie-card-${index}`} movie={movie} />}
+      itemContent={(index, movie, { isScrolling }) => (
+        <MovieCard key={`movie-card-${index}`} movie={movie} highlightQuery={highlightQuery} />
+      )}
       components={{ List, Item, Footer }}
       endReached={onLoadMore}
       listClassName='ion-padding'
