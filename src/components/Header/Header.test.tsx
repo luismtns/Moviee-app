@@ -1,5 +1,5 @@
 import { useSearchStore } from '@/stores/searchStore'
-import { render, screen } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import { vi } from 'vitest'
 import Header from './Header'
 
@@ -28,16 +28,17 @@ describe('Header', () => {
     })
   })
 
-  it('renders header with logo', () => {
-    render(<Header />)
+  it('renders ion-header structure', () => {
+    const { container } = render(<Header />)
 
-    expect(screen.getByText('Moviee')).toBeTruthy()
+    expect(container.querySelector('ion-header.main-header')).toBeTruthy()
+    expect(container.querySelector('ion-toolbar')).toBeTruthy()
   })
 
-  it('renders searchbar', () => {
-    render(<Header />)
+  it('contains logo and title', () => {
+    const { container } = render(<Header />)
 
-    const searchbar = screen.getByPlaceholderText('Buscar Filmes...')
-    expect(searchbar).toBeTruthy()
+    expect(container.querySelector('.logo-container')).toBeTruthy()
+    expect(container.querySelector('ion-title .app-name')?.textContent).toBe('Moviee')
   })
 })
