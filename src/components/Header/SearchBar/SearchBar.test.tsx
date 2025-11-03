@@ -1,14 +1,8 @@
 import { useSearchStore } from '@/stores/searchStore'
-import { render, screen } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import { vi } from 'vitest'
 import { SearchBar } from './SearchBar'
 
-// Mock do hook useDebounce
-vi.mock('@/hooks/useDebounce', () => ({
-  useDebounce: (value: string) => value,
-}))
-
-// Mock do store
 vi.mock('@/stores/searchStore', () => ({
   useSearchStore: vi.fn(),
 }))
@@ -28,10 +22,10 @@ describe('SearchBar', () => {
     })
   })
 
-  it('renders searchbar', () => {
-    render(<SearchBar />)
+  it('renders ion-searchbar', () => {
+    const { container } = render(<SearchBar />)
 
-    const searchbar = screen.getByPlaceholderText('Buscar Filmes...')
-    expect(searchbar).toBeTruthy()
+    const searchbar = container.querySelector('ion-searchbar')
+    expect(searchbar?.getAttribute('placeholder')).toBe('Buscar Filmes...')
   })
 })
