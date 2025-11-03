@@ -8,7 +8,7 @@ interface MovieActionsProps {
 
 const MovieActions: React.FC<MovieActionsProps> = memo(({ children }) => {
   return (
-    <IonCardHeader className={`movie-header`}>
+    <IonCardHeader className={`movie-actions`}>
       <IonGrid className='ion-grid'>
         <IonRow className='ion-justify-content-between ion-align-items-center ion-row'>
           {Array.isArray(children) ? (

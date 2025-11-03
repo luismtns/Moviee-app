@@ -1,19 +1,19 @@
-.movie-header {
+.movie-actions {
   position: absolute;
   top: 0;
   right: 0;
   padding: var(--ion-padding);
   width: 100%;
 }
-.movie-header .ion-grid {
+.movie-actions .ion-grid {
   padding: 0;
   width: 100%;
 }
 
-.movie-header .ion-row {
+.movie-actions .ion-row {
   margin: 0;
 }
 
-.movie-header .ion-col {
+.movie-actions .ion-col {
   padding: 0;
 }
