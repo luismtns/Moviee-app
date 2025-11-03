@@ -8,7 +8,7 @@ vi.mock('@/components/MovieDetails', () => ({
 }))
 
 describe('MovieDetailsPage', () => {
-  it('renders MovieDetails component', () => {
+  it('renders MovieDetails', () => {
     const { getByTestId } = render(
       <MemoryRouter initialEntries={['/movie/1']}>
         <MovieDetailsPage />
@@ -18,14 +18,13 @@ describe('MovieDetailsPage', () => {
     expect(getByTestId('movie-details-component')).toBeTruthy()
   })
 
-  it('renders within IonPage', () => {
+  it('wraps content in page', () => {
     const { container } = render(
       <MemoryRouter initialEntries={['/movie/1']}>
         <MovieDetailsPage />
       </MemoryRouter>
     )
 
-    const movieDetails = container.querySelector('[data-testid="movie-details-component"]')
-    expect(movieDetails).toBeTruthy()
+    expect(container.querySelector('[data-testid="movie-details-component"]')).toBeTruthy()
   })
 })
