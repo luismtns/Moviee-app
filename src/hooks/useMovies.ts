@@ -1,4 +1,6 @@
+import { useFavorites } from '@/hooks/useFavorites'
 import { tmdbService } from '@/services/tmdb.service'
+import { useAuthStore } from '@/stores/authStore'
 import type { MovieDetails, MoviesResponse } from '@/types/Movie'
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 
@@ -23,12 +25,22 @@ export const useMovieDetails = (movieId: number) => {
   })
 }
 
-export const useFavoriteMovies = (movieIds: number[]) => {
-  return useQuery<MovieDetails[], Error>({
-    queryKey: ['movie', 'details', 'favorites', movieIds.map((id) => id).join(',')],
-    queryFn: () => Promise.all(movieIds.map((id) => tmdbService.getDetails(id))),
-    enabled: !!movieIds.length,
-    staleTime: 10 * 60 * 1_000,
+export const useFavoriteMovies = () => {
+  const { guestSessionId, isAuthenticated } = useAuthStore()
+  const { favoriteIds } = useFavorites()
+
+  return useInfiniteQuery<MoviesResponse, Error>({
+    queryKey: ['movies', 'favorites', guestSessionId, favoriteIds.join(',')],
+    queryFn: ({ pageParam = 1 }) => {
+      if (!guestSessionId) throw new Error('Guest session not available')
+      return tmdbService.getFavorites(guestSessionId, pageParam as number)
+    },
+    getNextPageParam: (lastPage: MoviesResponse) =>
+      lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined,
+    initialPageParam: 1,
+    enabled: isAuthenticated && !!guestSessionId,
+    staleTime: 2 * 60 * 1_000,
+    refetchOnWindowFocus: true,
   })
 }
 
