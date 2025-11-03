@@ -1,0 +1,16 @@
+.movie-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.movie-genres {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.movie-genres ion-chip {
+  opacity: 1;
+  font-weight: bold;
+}

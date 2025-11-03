@@ -1,0 +1,8 @@
+export { default as FavoriteButton } from './FavoriteButton'
+export { default as MovieBackdrop } from './MovieBackdrop'
+export { default } from './MovieDetails'
+export { default as MovieDetailsList } from './MovieDetailsList'
+export { default as MovieHeader } from './MovieHeader'
+export { default as MovieMeta } from './MovieMeta'
+export { default as MoviePoster } from './MoviePoster'
+export { default as MovieSynopsis } from './MovieSynopsis'
