@@ -23,7 +23,7 @@ const Header = () => {
               <SearchBar />
             </IonCol>
 
-            <IonCol size='auto' className='ion-justify-self-end'>
+            <IonCol size='auto' className='ion-justify-self-end ion-display-md-block ion-display-none'>
               <Navigation />
             </IonCol>
           </IonRow>
