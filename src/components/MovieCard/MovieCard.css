@@ -1,11 +1,13 @@
-:root {
-  --movie-card-height: 24rem;
-  --movie-card-border-radius: 0.5rem;
-}
 .movie-card {
-  border-radius: var(--movie-card-border-radius, 0.5rem);
+  --movie-card-height: 24rem;
+  --movie-card-border-radius: 1rem;
+  border-radius: var(--movie-card-border-radius);
   overflow: hidden;
-  height: var(--movie-card-height, 24rem);
+  height: var(--movie-card-height);
   margin: 0;
   position: relative;
+}
+.movie-card-wrapper {
+  position: relative;
+  height: var(--movie-card-height);
 }
