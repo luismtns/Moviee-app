@@ -2,7 +2,7 @@
   position: absolute;
   top: 0;
   right: 0;
-  padding: var(--ion-padding, 8px);
+  padding: var(--ion-padding);
   width: 100%;
 }
 .movie-header .ion-grid {
