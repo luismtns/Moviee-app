@@ -1,8 +1,8 @@
 import { render } from '@testing-library/react'
-import { expect, test } from 'vitest'
+import { test } from 'vitest'
 import App from './App'
 
 test('renders without crashing', () => {
-  const { baseElement } = render(<App />)
-  expect(baseElement).toBeDefined()
+  const { container } = render(<App />)
+  expect(container.querySelector('ion-app')).toBeTruthy()
 })
