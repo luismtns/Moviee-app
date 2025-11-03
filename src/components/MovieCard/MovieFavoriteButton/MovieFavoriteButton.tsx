@@ -7,20 +7,20 @@ import { memo } from 'react'
 interface MovieFavoriteButtonProps {
   movieId: number
   movieTitle: string
-  onToggle?: (movieId: number, title: string, isFavorite: boolean) => void
 }
 
-const MovieFavoriteButton: React.FC<MovieFavoriteButtonProps> = memo(({ movieId, movieTitle, onToggle }) => {
-  const { isFavorite, toggleFavorite } = useFavorites()
+const MovieFavoriteButton: React.FC<MovieFavoriteButtonProps> = memo(({ movieId, movieTitle }) => {
+  const { isFavorite, toggleFavorite, isLoading, canUseFavorites } = useFavorites()
   const isMovieFavorite = isFavorite(movieId)
 
-  const handleClick = () => {
+  const handleClick = async () => {
+    if (!canUseFavorites) return
+
     const wasFavorite = isMovieFavorite
-    toggleFavorite(movieId)
-    onToggle?.(movieId, movieTitle, !wasFavorite)
+
+    await toggleFavorite(movieId)
 
     const message = wasFavorite ? `Removido dos favoritos: ${movieTitle}` : `Adicionado aos favoritos: ${movieTitle}`
-
     notifications.info(message)
   }
 
@@ -28,6 +28,7 @@ const MovieFavoriteButton: React.FC<MovieFavoriteButtonProps> = memo(({ movieId,
     <IonButton
       fill='clear'
       onClick={handleClick}
+      disabled={isLoading || !canUseFavorites}
       aria-label={isMovieFavorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}>
       <IonIcon icon={isMovieFavorite ? heart : heartOutline} color={isMovieFavorite ? 'danger' : 'medium'} />
     </IonButton>
