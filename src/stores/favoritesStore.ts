@@ -1,5 +1,6 @@
+import { createUnifiedStorage } from '@/lib/storage.factory'
 import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
+import { createJSONStorage, persist } from 'zustand/middleware'
 
 interface FavoritesStore {
   favoriteIds: number[]
@@ -51,6 +52,7 @@ export const useFavoritesStore = create<FavoritesStore>()(
     }),
     {
       name: 'moviee-favorites',
+      storage: createJSONStorage(() => createUnifiedStorage()),
     }
   )
 )
