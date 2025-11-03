@@ -9,7 +9,7 @@ describe('MovieActions', () => {
       </MovieActions>
     )
 
-    expect(container.querySelector('ion-card-header.movie-header')).toBeTruthy()
+    expect(container.querySelector('ion-card-header.movie-actions')).toBeTruthy()
     expect(container.querySelector('ion-grid')).toBeTruthy()
     expect(container.querySelector('ion-row')).toBeTruthy()
   })
