@@ -3,9 +3,10 @@
 }
 
 .virtuoso-grid .movie-grid-col {
+  --ion-padding: 1rem;
   /* height: ; */
-  padding: var(--ion-padding, 16px);
-  min-height: calc(var(--movie-card-height, 32rem) + (var(--ion-padding, 16px) * 2));
+  padding: var(--ion-padding);
+  min-height: calc(var(--movie-card-height) + (var(--ion-padding) * 2));
 }
 
 @supports (padding: max(0px)) {
