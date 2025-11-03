@@ -32,6 +32,4 @@ const ToastProvider: React.FC = memo(() => {
   )
 })
 
-ToastProvider.displayName = 'ToastProvider'
-
 export default ToastProvider
