@@ -1,11 +1,9 @@
-:root {
-  --movie-image-height: 75%;
-}
-
 .movie-image-wrapper {
+  --movie-image-height: 75%;
   width: 100%;
   overflow: hidden;
-  height: var(--movie-image-height, 75%);
+  height: var(--movie-image-height);
+  position: relative;
 }
 
 .movie-image {
