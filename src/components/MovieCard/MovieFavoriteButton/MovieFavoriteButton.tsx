@@ -1,7 +1,7 @@
 import { useFavorites } from '@/hooks/useFavorites'
 import { notifications } from '@/utils/notifications'
 import { IonButton, IonIcon } from '@ionic/react'
-import { heart, heartOutline } from 'ionicons/icons'
+import { heart } from 'ionicons/icons'
 import { memo } from 'react'
 
 interface MovieFavoriteButtonProps {
@@ -13,7 +13,9 @@ const MovieFavoriteButton: React.FC<MovieFavoriteButtonProps> = memo(({ movieId,
   const { isFavorite, toggleFavorite, isLoading, canUseFavorites } = useFavorites()
   const isMovieFavorite = isFavorite(movieId)
 
-  const handleClick = async () => {
+  const handleClick = async (e: React.MouseEvent) => {
+    e.stopPropagation()
+
     if (!canUseFavorites) return
 
     const wasFavorite = isMovieFavorite
@@ -26,11 +28,17 @@ const MovieFavoriteButton: React.FC<MovieFavoriteButtonProps> = memo(({ movieId,
 
   return (
     <IonButton
+      shape='round'
+      size='small'
+      color={'medium'}
       fill='clear'
+      style={{
+        opacity: isMovieFavorite ? 1 : 0.8,
+      }}
       onClick={handleClick}
       disabled={isLoading || !canUseFavorites}
       aria-label={isMovieFavorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}>
-      <IonIcon icon={isMovieFavorite ? heart : heartOutline} color={isMovieFavorite ? 'danger' : 'medium'} />
+      <IonIcon size='large' icon={heart} color={isMovieFavorite ? 'danger' : 'medium'} />
     </IonButton>
   )
 })
