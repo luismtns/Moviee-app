@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import { vi } from 'vitest'
 import { Navigation } from './Navigation'
 
@@ -9,9 +9,11 @@ vi.mock('react-router-dom', () => ({
 
 describe('Navigation', () => {
   it('renders navigation buttons', () => {
-    render(<Navigation />)
+    const { container } = render(<Navigation />)
 
-    expect(screen.getByText('Home')).toBeTruthy()
-    expect(screen.getByText('Favoritos')).toBeTruthy()
+    const buttons = container.querySelectorAll('ion-button')
+    expect(buttons).toHaveLength(2)
+    expect(buttons[0].textContent?.trim()).toBe('Home')
+    expect(buttons[1].textContent?.trim()).toBe('Favoritos')
   })
 })
