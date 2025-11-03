@@ -35,7 +35,7 @@ export const Navigation: React.FC = () => {
         fill={isActive('/favorites') ? 'solid' : 'clear'}
         color={isActive('/favorites') ? 'primary' : 'medium'}
         onClick={handleFavoritesClick}
-        className='nav-button nav-favorites'>
+        className='nav-button'>
         <IonIcon icon={heart} />
         Favoritos
       </IonButton>
