@@ -1,17 +1,6 @@
+import Header from '@/components/Header/Header'
 import { useMovieDetails } from '@/hooks/useMovies'
-import {
-  IonBackButton,
-  IonButtons,
-  IonCol,
-  IonContent,
-  IonGrid,
-  IonHeader,
-  IonPage,
-  IonRow,
-  IonSpinner,
-  IonTitle,
-  IonToolbar,
-} from '@ionic/react'
+import { IonCol, IonContent, IonGrid, IonPage, IonRow, IonSpinner, IonText } from '@ionic/react'
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import FavoriteButton from './FavoriteButton'
@@ -27,12 +16,15 @@ const MovieDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>()
   const movieId = parseInt(id, 10)
 
-  const { data: movie, isLoading, error } = useMovieDetails(movieId)
+  const { data: movie, isLoading, error, isPending } = useMovieDetails(movieId)
 
-  if (isLoading) {
+  if (isLoading || isPending) {
     return (
       <IonContent className='ion-padding ion-text-center'>
         <IonSpinner name='crescent' />
+        <IonText>
+          <h2>Carregando detalhes do filme...</h2>
+        </IonText>
       </IonContent>
     )
   }
@@ -40,22 +32,16 @@ const MovieDetails: React.FC = () => {
   if (error || !movie) {
     return (
       <IonContent className='ion-padding ion-text-center'>
-        <p>Filme não encontrado</p>
+        <IonText>
+          <h2>Filme não encontrado</h2>
+        </IonText>
       </IonContent>
     )
   }
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot='start'>
-            <IonBackButton defaultHref='/home' />
-          </IonButtons>
-          <IonTitle>{movie.title}</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-
+      <Header backHref='/' />
       <IonContent>
         <MovieBackdrop backdropPath={movie.backdrop_path} />
 

@@ -109,7 +109,7 @@ describe('MovieDetails', () => {
     expect(container.textContent).toContain('Filme não encontrado')
   })
 
-  it('renders movie title in toolbar', () => {
+  it('renders header toolbar', () => {
     mockUseMovieDetails.mockReturnValue({
       data: mockMovie,
       isLoading: false,
@@ -122,7 +122,7 @@ describe('MovieDetails', () => {
       </MemoryRouter>
     )
 
-    const title = container.querySelector('ion-title')
-    expect(title?.textContent).toBe('Test Movie')
+    expect(container.querySelector('ion-header')).toBeTruthy()
+    expect(container.querySelector('ion-toolbar')).toBeTruthy()
   })
 })
