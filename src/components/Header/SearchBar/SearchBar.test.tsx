@@ -1,31 +1,27 @@
-import { useSearchStore } from '@/stores/searchStore'
 import { render } from '@testing-library/react'
-import { vi } from 'vitest'
+import { MemoryRouter } from 'react-router-dom'
 import { SearchBar } from './SearchBar'
 
-vi.mock('@/stores/searchStore', () => ({
-  useSearchStore: vi.fn(),
-}))
-
-const mockStore = vi.mocked(useSearchStore)
-
 describe('SearchBar', () => {
-  beforeEach(() => {
-    mockStore.mockReturnValue({
-      searchTerm: '',
-      isSearching: false,
-      searchResults: [],
-      setSearchTerm: vi.fn(),
-      setIsSearching: vi.fn(),
-      setSearchResults: vi.fn(),
-      clearSearch: vi.fn(),
-    })
-  })
-
-  it('renders ion-searchbar', () => {
-    const { container } = render(<SearchBar />)
+  it('renders with placeholder', () => {
+    const { container } = render(
+      <MemoryRouter>
+        <SearchBar />
+      </MemoryRouter>
+    )
 
     const searchbar = container.querySelector('ion-searchbar')
     expect(searchbar?.getAttribute('placeholder')).toBe('Buscar Filmes...')
+  })
+
+  it('syncs value with URL query', () => {
+    const { container } = render(
+      <MemoryRouter initialEntries={['/search?q=matrix']}>
+        <SearchBar />
+      </MemoryRouter>
+    )
+
+    const searchbar = container.querySelector('ion-searchbar')
+    expect(searchbar?.getAttribute('value')).toBe('matrix')
   })
 })

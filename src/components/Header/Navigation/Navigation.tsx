@@ -23,8 +23,8 @@ export const Navigation: React.FC = () => {
   return (
     <IonToolbar className='navigation'>
       <IonButton
-        fill={isActive('/home') ? 'solid' : 'clear'}
-        color={isActive('/home') ? 'primary' : 'medium'}
+        fill={isActive('/') ? 'solid' : 'clear'}
+        color={isActive('/') ? 'primary' : 'medium'}
         onClick={handleHomeClick}
         className='nav-button'>
         <IonIcon icon={home} />

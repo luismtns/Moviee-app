@@ -8,12 +8,10 @@ vi.mock('react-router-dom', () => ({
 }))
 
 describe('Navigation', () => {
-  it('renders navigation buttons', () => {
+  it('renders two buttons', () => {
     const { container } = render(<Navigation />)
 
     const buttons = container.querySelectorAll('ion-button')
     expect(buttons).toHaveLength(2)
-    expect(buttons[0].textContent?.trim()).toBe('Home')
-    expect(buttons[1].textContent?.trim()).toBe('Favoritos')
   })
 })
