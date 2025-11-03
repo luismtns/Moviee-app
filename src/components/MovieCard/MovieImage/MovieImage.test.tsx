@@ -9,14 +9,13 @@ vi.mock('@/utils/movie.utils', () => ({
 }))
 
 describe('MovieImage', () => {
-  it('renders ion-img with correct alt', () => {
+  it('renders image with alt text', () => {
     const { container } = render(<MovieImage posterPath='/test.jpg' title='Test' />)
 
-    const img = container.querySelector('ion-img')
-    expect(img?.getAttribute('alt')).toBe('Poster do filme Test')
+    expect(container.querySelector('ion-img')?.getAttribute('alt')).toBe('Poster do filme Test')
   })
 
-  it('renders skeleton placeholder', () => {
+  it('renders loading skeleton', () => {
     const { container } = render(<MovieImage posterPath='/test.jpg' title='Test' />)
 
     expect(container.querySelector('ion-skeleton-text')).toBeTruthy()

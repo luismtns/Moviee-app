@@ -11,17 +11,15 @@ vi.mock('@/hooks/useFavorites', () => ({
 }))
 
 describe('MovieFavoriteButton', () => {
-  it('renders ion-button with aria-label', () => {
+  it('renders button with label', () => {
     const { container } = render(<MovieFavoriteButton movieId={1} movieTitle='Test' />)
 
-    const button = container.querySelector('ion-button')
-    expect(button?.getAttribute('aria-label')).toBe('Adicionar aos favoritos')
+    expect(container.querySelector('ion-button')?.getAttribute('aria-label')).toBe('Adicionar aos favoritos')
   })
 
-  it('uses clear fill style', () => {
+  it('uses clear fill', () => {
     const { container } = render(<MovieFavoriteButton movieId={1} movieTitle='Test' />)
 
-    const button = container.querySelector('ion-button')
-    expect(button?.getAttribute('fill')).toBe('clear')
+    expect(container.querySelector('ion-button')?.getAttribute('fill')).toBe('clear')
   })
 })

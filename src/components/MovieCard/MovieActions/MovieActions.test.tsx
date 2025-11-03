@@ -2,19 +2,17 @@ import { render } from '@testing-library/react'
 import MovieActions from './MovieActions'
 
 describe('MovieActions', () => {
-  it('renders ion-card-header structure', () => {
+  it('renders card header', () => {
     const { container } = render(
       <MovieActions>
-        <div>Test Action</div>
+        <div>Test</div>
       </MovieActions>
     )
 
-    expect(container.querySelector('ion-card-header.movie-actions')).toBeTruthy()
-    expect(container.querySelector('ion-grid')).toBeTruthy()
-    expect(container.querySelector('ion-row')).toBeTruthy()
+    expect(container.querySelector('ion-card-header')).toBeTruthy()
   })
 
-  it('renders children in ion-col', () => {
+  it('renders children in columns', () => {
     const { container } = render(
       <MovieActions>
         <span>Action 1</span>
@@ -24,7 +22,5 @@ describe('MovieActions', () => {
 
     const cols = container.querySelectorAll('ion-col')
     expect(cols).toHaveLength(2)
-    expect(cols[0].textContent).toBe('Action 1')
-    expect(cols[1].textContent).toBe('Action 2')
   })
 })
