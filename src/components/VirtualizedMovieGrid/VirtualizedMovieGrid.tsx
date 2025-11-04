@@ -17,6 +17,7 @@ interface VirtualizedMovieGridProps {
   highlightQuery?: string
   emptyComponent?: React.ReactNode
   loadingComponent?: React.ReactNode
+  showDeleteIcon?: boolean
 }
 
 const VirtualizedMovieGrid: React.FC<VirtualizedMovieGridProps> = ({
@@ -28,6 +29,7 @@ const VirtualizedMovieGrid: React.FC<VirtualizedMovieGridProps> = ({
   highlightQuery,
   emptyComponent,
   loadingComponent,
+  showDeleteIcon = false,
 }) => {
   const List = useMemo(
     () =>
@@ -99,7 +101,12 @@ const VirtualizedMovieGrid: React.FC<VirtualizedMovieGridProps> = ({
       data={movies}
       customScrollParent={customScrollParent}
       itemContent={(index, movie) => (
-        <MovieCard key={`movie-card-${index}`} movie={movie} highlightQuery={highlightQuery} />
+        <MovieCard
+          key={`movie-card-${index}`}
+          movie={movie}
+          highlightQuery={highlightQuery}
+          showDeleteIcon={showDeleteIcon}
+        />
       )}
       components={{ List, Item, Footer }}
       endReached={onLoadMore}
