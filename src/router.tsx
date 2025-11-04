@@ -14,9 +14,6 @@ export const Router: React.FC = () => {
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet animated={false}>
-          <Route path='/'>
-            <Redirect to='/home' />
-          </Route>
           <Route exact path='/home'>
             <Home />
           </Route>
@@ -28,6 +25,9 @@ export const Router: React.FC = () => {
           </Route>
           <Route exact path='/search'>
             <Search />
+          </Route>
+          <Route exact path='/'>
+            <Redirect to='/home' />
           </Route>
         </IonRouterOutlet>
 
