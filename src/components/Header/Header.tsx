@@ -1,6 +1,7 @@
 import { SearchBar } from '@/components/Header/SearchBar/SearchBar'
 import Logo from '@/components/Logo/Logo'
 import { IonBackButton, IonButtons, IonHeader, IonTitle, IonToolbar } from '@ionic/react'
+import clsx from 'clsx'
 import './Header.css'
 import { Navigation } from './Navigation/Navigation'
 
@@ -16,7 +17,11 @@ const Header = ({ backHref }: HeaderProps) => {
             <IonBackButton defaultHref={backHref} />
           </IonButtons>
         )}
-        <IonTitle slot='start'>
+        <IonTitle
+          slot='start'
+          className={clsx({
+            'ion-display-none': !!backHref,
+          })}>
           <Logo />
           <span className='ion-display-none' aria-label='Moviee explorer' hidden>
             Moviee explorer
