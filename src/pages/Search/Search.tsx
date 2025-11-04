@@ -32,7 +32,7 @@ const Search: React.FC = () => {
   const noResults = !isLoading && allMovies.length === 0 && searchQuery.length > 2
   return (
     <IonPage>
-      <Header />
+      <Header backHref='/home' />
       <IonContent scrollY={false}>
         <VirtualizedMovieGrid
           movies={allMovies}
@@ -49,7 +49,7 @@ const Search: React.FC = () => {
                   : 'Utilize o campo de busca acima para encontrar filmes.'
               }
               onAction={handleAction}
-              actionLabel={noResults ? 'Explorar filmes' : 'Limpar busca'}
+              actionLabel={'Explorar filmes'}
             />
           }
         />
