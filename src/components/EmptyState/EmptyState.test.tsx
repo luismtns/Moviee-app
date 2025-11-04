@@ -2,6 +2,14 @@ import { render } from '@testing-library/react'
 import { vi } from 'vitest'
 import EmptyState from './EmptyState'
 
+vi.mock('@ionic/react', async () => {
+  const actual = await vi.importActual('@ionic/react')
+  return {
+    ...actual,
+    IonIcon: () => null,
+  }
+})
+
 describe('EmptyState', () => {
   it('renders icon and message', () => {
     const { container } = render(<EmptyState icon='film-outline' message='Test' />)
