@@ -1,30 +1,34 @@
+import EmptyState from '@/components/EmptyState/EmptyState'
 import type { Movie } from '@/types/Movie'
 import { IonCol, IonRow, IonSpinner, IonText } from '@ionic/react'
 import clsx from 'clsx'
-import React, { forwardRef, useMemo, useState } from 'react'
+import { film } from 'ionicons/icons'
+import React, { forwardRef, useMemo } from 'react'
 import { VirtuosoGrid } from 'react-virtuoso'
 import MovieCard from '../MovieCard/MovieCard'
 import './VirtualizedMovieGrid.css'
 
 interface VirtualizedMovieGridProps {
   movies: Movie[]
-  isPending?: boolean
+  isLoading?: boolean
   onLoadMore?: () => void
   customScrollParent?: HTMLElement
   isFetchingNextPage?: boolean
   highlightQuery?: string
+  emptyComponent?: React.ReactNode
+  loadingComponent?: React.ReactNode
 }
 
 const VirtualizedMovieGrid: React.FC<VirtualizedMovieGridProps> = ({
   movies,
-  isPending,
+  isLoading,
   onLoadMore,
   customScrollParent,
   isFetchingNextPage,
   highlightQuery,
+  emptyComponent,
+  loadingComponent,
 }) => {
-  const [isScrolling, setIsScrolling] = useState(false)
-
   const List = useMemo(
     () =>
       forwardRef<HTMLDivElement, React.ComponentProps<typeof IonRow>>(function List(
@@ -72,21 +76,18 @@ const VirtualizedMovieGrid: React.FC<VirtualizedMovieGridProps> = ({
       )
     )
   }
-  if (isPending) {
-    return (
+  if (movies.length === 0 && !isLoading) {
+    return emptyComponent ? <>{emptyComponent}</> : <EmptyState icon={film} message='Nenhum filme encontrado' />
+  }
+  if (isLoading) {
+    return loadingComponent ? (
+      <>{loadingComponent}</>
+    ) : (
       <div className='ion-text-center ion-padding'>
         <IonSpinner name='crescent' slot='start' />
         <IonText>
           <h2>Carregando lista de filmes...</h2>
         </IonText>
-      </div>
-    )
-  }
-
-  if (movies.length === 0 && !isPending) {
-    return (
-      <div className='ion-text-center ion-padding'>
-        <p>Nenhum filme encontrado</p>
       </div>
     )
   }
@@ -97,9 +98,7 @@ const VirtualizedMovieGrid: React.FC<VirtualizedMovieGridProps> = ({
       totalCount={movies.length}
       data={movies}
       customScrollParent={customScrollParent}
-      context={{ isScrolling }}
-      isScrolling={setIsScrolling}
-      itemContent={(index, movie, { isScrolling }) => (
+      itemContent={(index, movie) => (
         <MovieCard key={`movie-card-${index}`} movie={movie} highlightQuery={highlightQuery} />
       )}
       components={{ List, Item, Footer }}
