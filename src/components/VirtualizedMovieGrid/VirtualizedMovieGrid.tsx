@@ -79,7 +79,11 @@ const VirtualizedMovieGrid: React.FC<VirtualizedMovieGridProps> = ({
     )
   }
   if (movies.length === 0 && !isLoading) {
-    return emptyComponent ? <>{emptyComponent}</> : <EmptyState icon={film} message='Nenhum filme encontrado' />
+    return emptyComponent ? (
+      <>{emptyComponent}</>
+    ) : (
+      <EmptyState icon={film} message='Nenhum filme encontrado' actionHref='/' actionLabel='Explorar filmes' />
+    )
   }
   if (isLoading) {
     return loadingComponent ? (
