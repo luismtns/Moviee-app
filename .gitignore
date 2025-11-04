@@ -34,3 +34,6 @@ yarn-error.log*
 
 # Optional eslint cache
 .eslintcache
+
+# PWA
+/dev-dist
