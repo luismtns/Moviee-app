@@ -1,5 +1,5 @@
 .favorites-sort-filter {
-  border-bottom: 1px solid var(--ion-color-light-tint);
+  border-block: 1px solid var(--ion-color-light-tint);
   background: var(--ion-color-step-50);
 }
 
