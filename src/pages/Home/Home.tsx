@@ -6,7 +6,7 @@ import { useMemo } from 'react'
 import './Home.css'
 
 const Home: React.FC = () => {
-  const { data: popularData, fetchNextPage, isPending, isFetchingNextPage } = usePopularMovies()
+  const { data: popularData, fetchNextPage, isLoading, isFetchingNextPage } = usePopularMovies()
 
   const allMovies = useMemo(() => popularData?.pages.flatMap((page) => page.results) || [], [popularData])
 
@@ -16,9 +16,9 @@ const Home: React.FC = () => {
       <IonContent scrollY={false}>
         <VirtualizedMovieGrid
           movies={allMovies}
-          isPending={isPending}
+          isLoading={isLoading}
           onLoadMore={fetchNextPage}
-          isFetchingNextPage={isFetchingNextPage || isPending}
+          isFetchingNextPage={isFetchingNextPage || isLoading}
         />
       </IonContent>
     </IonPage>

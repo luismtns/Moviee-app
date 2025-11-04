@@ -39,7 +39,12 @@ const FavoritesPage: React.FC = () => {
       <Header />
       <IonContent scrollY={false}>
         <FavoritesSortFilter sortBy={sortBy} onSortChange={setSortBy} />
-        <VirtualizedMovieGrid movies={allMovies} onLoadMore={handleLoadMore} isFetchingNextPage={isFetchingNextPage} />
+        <VirtualizedMovieGrid
+          movies={allMovies}
+          isLoading={isLoading}
+          onLoadMore={handleLoadMore}
+          isFetchingNextPage={isFetchingNextPage}
+        />
       </IonContent>
     </IonPage>
   )
