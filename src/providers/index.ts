@@ -1,2 +1,2 @@
 export { AppProviders } from './AppProviders'
-export { AuthProvider, useAuth } from './AuthProvider'
+export { AuthProvider } from './AuthProvider'

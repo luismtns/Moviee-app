@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
-import { useGuestSession } from './useGuestSession'
+import { useAuth } from './useAuth'
 
 vi.mock('@/stores/authStore', () => ({
   useAuthStore: vi.fn(() => ({
@@ -9,12 +9,10 @@ vi.mock('@/stores/authStore', () => ({
   })),
 }))
 
-describe('useGuestSession', () => {
-  it('returns guest session state', () => {
-    const { result } = renderHook(() => useGuestSession())
-
+describe('useAuth', () => {
+  it('returns auth data', () => {
+    const { result } = renderHook(() => useAuth())
     expect(result.current.guestSessionId).toBe('test-session')
     expect(result.current.isAuthenticated).toBe(true)
-    expect(result.current.canRate).toBe(true)
   })
 })

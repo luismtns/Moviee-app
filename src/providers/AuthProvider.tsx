@@ -1,14 +1,7 @@
 import { useAuthHydrated } from '@/hooks'
 import { authService } from '@/services/auth.service'
 import { useAuthStore } from '@/stores/authStore'
-import React, { createContext, useContext, useEffect, type ReactNode } from 'react'
-
-interface AuthContextValue {
-  guestSessionId: string | null
-  isAuthenticated: boolean
-}
-
-const AuthContext = createContext<AuthContextValue | undefined>(undefined)
+import React, { useEffect, type ReactNode } from 'react'
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const hydrated = useAuthHydrated()
@@ -37,15 +30,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
     initializeAuth()
     return () => {}
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hydrated])
 
-  return <AuthContext.Provider value={{ guestSessionId, isAuthenticated }}>{children}</AuthContext.Provider>
-}
-
-export const useAuth = () => {
-  const context = useContext(AuthContext)
-  if (!context) {
-    throw new Error('useAuth must be used within AuthProvider')
-  }
-  return context
+  return <>{children}</>
 }
