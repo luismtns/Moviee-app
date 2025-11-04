@@ -36,6 +36,7 @@ vi.mock('@/components/LoginButton', () => ({
 
 vi.mock('@/components/FavoritesSortFilter', () => ({
   default: () => null,
+  SortBy: {},
 }))
 
 vi.mock('@/components/VirtualizedMovieGrid/VirtualizedMovieGrid', () => ({

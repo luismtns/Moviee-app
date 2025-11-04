@@ -1,5 +1,5 @@
 import EmptyState from '@/components/EmptyState'
-import FavoritesSortFilter, { SortBy } from '@/components/FavoritesSortFilter'
+import FavoritesToolbar, { SortBy } from '@/components/FavoritesToolbar'
 import Header from '@/components/Header/Header'
 import LoginButton from '@/components/LoginButton'
 import VirtualizedMovieGrid from '@/components/VirtualizedMovieGrid/VirtualizedMovieGrid'
@@ -44,7 +44,10 @@ const FavoritesPage: React.FC = () => {
       <IonPage>
         <Header />
         <IonContent>
-          <EmptyState title='Login Necessário' message='Faça login para ver seus filmes favoritos' icon={heartHalf}>
+          <EmptyState
+            title='Login Necessário'
+            message='Para adicionar filmes aos favoritos você precisa fazer login com uma conta TMDB.'
+            icon={heartHalf}>
             <LoginButton />
           </EmptyState>
         </IonContent>
@@ -56,7 +59,7 @@ const FavoritesPage: React.FC = () => {
     <IonPage>
       <Header />
       <IonContent scrollY={false}>
-        <FavoritesSortFilter sortBy={sortBy} onSortChange={setSortBy} />
+        <FavoritesToolbar sortBy={sortBy} onSortChange={setSortBy} />
         <VirtualizedMovieGrid
           movies={allMovies}
           isLoading={isLoading}

@@ -1,0 +1,7 @@
+.sort-select {
+  --padding-start: 8px;
+  --padding-end: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  width: 8rem;
+}
