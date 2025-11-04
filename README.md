@@ -1,5 +1,7 @@
 # Moviee App
 
+[![Test](https://github.com/luismtns/Moviee-app/actions/workflows/test.yml/badge.svg)](https://github.com/luismtns/Moviee-app/actions/workflows/test.yml)
+
 Aplicação de filmes desenvolvida com Ionic React que consome a API do TMDB.
 
 ## Instalação e Execução
