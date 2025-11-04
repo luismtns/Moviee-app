@@ -21,11 +21,19 @@ const mockMovie = {
   revenue: 15000000,
   homepage: 'https://test.com',
   genres: [{ id: 1, name: 'Action' }],
+  status: 'Released',
+  tagline: 'Test tagline',
+  popularity: 100,
+  genre_ids: [1],
 }
 
 describe('MovieDetails', () => {
   it('renders content', () => {
-    vi.mocked(useMovieDetails).mockReturnValue({ data: mockMovie, isLoading: false, error: null } as any)
+    vi.mocked(useMovieDetails).mockReturnValue({
+      data: mockMovie,
+      isLoading: false,
+      error: null,
+    } as ReturnType<typeof useMovieDetails>)
     const { container } = render(
       <MemoryRouter>
         <MovieDetails />
@@ -35,7 +43,11 @@ describe('MovieDetails', () => {
   })
 
   it('shows loading', () => {
-    vi.mocked(useMovieDetails).mockReturnValue({ data: null, isLoading: true, error: null } as any)
+    vi.mocked(useMovieDetails).mockReturnValue({
+      data: undefined,
+      isLoading: true,
+      error: null,
+    } as ReturnType<typeof useMovieDetails>)
     const { container } = render(
       <MemoryRouter>
         <MovieDetails />
@@ -45,7 +57,11 @@ describe('MovieDetails', () => {
   })
 
   it('shows error', () => {
-    vi.mocked(useMovieDetails).mockReturnValue({ data: null, isLoading: false, error: new Error() } as any)
+    vi.mocked(useMovieDetails).mockReturnValue({
+      data: undefined,
+      isLoading: false,
+      error: new Error(),
+    } as ReturnType<typeof useMovieDetails>)
     const { container } = render(
       <MemoryRouter>
         <MovieDetails />
