@@ -37,7 +37,7 @@ const EmptyState: React.FC<EmptyStateProps> = ({
           <p className='empty-state-message'>{message}</p>
         </IonText>
 
-        {actionLabel && onAction && (
+        {actionLabel && (onAction || actionHref) && (
           <IonButton onClick={onAction} href={actionHref} className='empty-state-action'>
             {actionLabel}
           </IonButton>

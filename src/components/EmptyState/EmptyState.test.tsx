@@ -16,12 +16,16 @@ describe('EmptyState', () => {
     expect(container.textContent).toContain('Test')
   })
 
-  it('renders title and button', () => {
-    const { container } = render(
-      <EmptyState icon='film-outline' message='Test' title='Title' actionLabel='Click' onAction={vi.fn()} />
+  it('renders button with onAction or actionHref', () => {
+    const { container: withAction } = render(
+      <EmptyState icon='film-outline' message='Test' actionLabel='Click' onAction={vi.fn()} />
     )
-    expect(container.textContent).toContain('Title')
-    expect(container.querySelector('ion-button')).toBeTruthy()
+    expect(withAction.querySelector('ion-button')).toBeTruthy()
+
+    const { container: withHref } = render(
+      <EmptyState icon='film-outline' message='Test' actionLabel='Click' actionHref='/' />
+    )
+    expect(withHref.querySelector('ion-button')).toBeTruthy()
   })
 
   it('renders children', () => {
