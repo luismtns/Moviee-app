@@ -1,7 +1,7 @@
 import { useAuthStore } from '@/stores/authStore'
 import { useEffect, useState } from 'react'
 
-const useAuthHydration = () => {
+export const useAuthHydrated = () => {
   const [hydrated, setHydrated] = useState(false)
 
   useEffect(() => {
@@ -16,4 +16,3 @@ const useAuthHydration = () => {
 
   return hydrated
 }
-export default useAuthHydration
