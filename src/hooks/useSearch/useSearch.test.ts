@@ -2,10 +2,13 @@ import { renderHook } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 import { useSearch } from './useSearch'
 
+const mockPush = vi.fn()
+const mockSetSearchQuery = vi.fn()
+
 vi.mock('@/stores/searchStore', () => ({
   useSearchStore: vi.fn(() => ({
     searchQuery: '',
-    setSearchQuery: vi.fn(),
+    setSearchQuery: mockSetSearchQuery,
   })),
 }))
 
@@ -16,17 +19,27 @@ vi.mock('@ionic/react', () => ({
 }))
 
 vi.mock('react-router-dom', () => ({
-  useHistory: vi.fn(() => ({ push: vi.fn() })),
+  useHistory: vi.fn(() => ({ push: mockPush })),
   useLocation: vi.fn(() => ({ search: '', pathname: '/' })),
 }))
 
 describe('useSearch', () => {
-  it('returns search state and methods', () => {
+  it('returns search data', () => {
     const { result } = renderHook(() => useSearch())
+    expect(result.current.searchQuery).toBe('')
+  })
 
-    expect(result.current).toHaveProperty('searchQuery')
-    expect(result.current).toHaveProperty('updateSearch')
-    expect(result.current).toHaveProperty('clearSearch')
-    expect(result.current).toHaveProperty('navigateToSearch')
+  it('calls updateSearch', () => {
+    const { result } = renderHook(() => useSearch())
+    result.current.updateSearch('test')
+    expect(mockSetSearchQuery).toHaveBeenCalledWith('test')
+    expect(mockPush).toHaveBeenCalledWith('/search?q=test')
+  })
+
+  it('calls clearSearch', () => {
+    const { result } = renderHook(() => useSearch())
+    result.current.clearSearch()
+    expect(mockSetSearchQuery).toHaveBeenCalledWith('')
+    expect(mockPush).toHaveBeenCalledWith('/')
   })
 })
