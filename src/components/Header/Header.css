@@ -1,5 +1,4 @@
-.main-header ion-toolbar {
-  --min-height: 5rem;
+.main-header {
   --ion-safe-area-top: 0.5rem;
 }
 

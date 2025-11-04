@@ -6,6 +6,7 @@ import './SearchBar.css'
 interface SearchBarProps {
   placeholder?: string
   autoFocus?: boolean
+  slot?: string | undefined
 }
 
 export const SearchBar: React.FC<SearchBarProps> = ({ placeholder = 'Buscar Filmes...' }) => {
@@ -32,7 +33,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ placeholder = 'Buscar Film
   })
 
   return (
-    <IonToolbar className='search-container' slot='start'>
+    <IonToolbar className='search-container'>
       <IonSearchbar
         ref={inputRef}
         value={searchQuery}
@@ -43,7 +44,6 @@ export const SearchBar: React.FC<SearchBarProps> = ({ placeholder = 'Buscar Film
         showClearButton='always'
         debounce={800}
         className='search-bar'
-        slot='start'
       />
     </IonToolbar>
   )

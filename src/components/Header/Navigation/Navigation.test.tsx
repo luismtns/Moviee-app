@@ -7,6 +7,10 @@ vi.mock('react-router-dom', () => ({
   useLocation: () => ({ pathname: '/home' }),
 }))
 
+vi.mock('@/components/LoginButton/LoginButton', () => ({
+  default: () => null,
+}))
+
 describe('Navigation', () => {
   it('renders buttons', () => {
     const { container } = render(<Navigation />)

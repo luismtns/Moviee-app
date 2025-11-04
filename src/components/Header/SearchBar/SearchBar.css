@@ -1,5 +1,4 @@
 .search-bar {
-  flex: 1 1 auto;
   width: 100%;
-  max-width: 32rem;
+  text-align: center;
 }

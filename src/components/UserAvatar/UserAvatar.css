@@ -1,0 +1,53 @@
+.user-avatar-button {
+  --padding-start: 4px;
+  --padding-end: 4px;
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--ion-color-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--ion-color-secondary-contrast);
+}
+
+.user-menu {
+  padding: 0;
+  min-width: 200px;
+}
+
+.user-menu-header {
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--ion-color-light);
+}
+
+.user-menu-icon {
+  font-size: 40px;
+  color: var(--ion-color-primary);
+}
+
+.user-menu-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.user-menu-username {
+  font-weight: 600;
+  font-size: 14px;
+  display: block;
+}
+
+.user-menu-name {
+  font-size: 12px;
+  color: var(--ion-color-medium);
+  display: block;
+}
