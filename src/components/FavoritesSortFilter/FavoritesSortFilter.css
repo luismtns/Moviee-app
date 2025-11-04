@@ -1,0 +1,28 @@
+.favorites-sort-filter {
+  border-bottom: 1px solid var(--ion-color-light-tint);
+  background: var(--ion-color-step-50);
+}
+
+.favorites-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--ion-color-dark);
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.filter-label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--ion-color-medium);
+}
+
+.sort-select {
+  --padding-start: 8px;
+  --padding-end: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  width: 8rem;
+}

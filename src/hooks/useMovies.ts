@@ -25,15 +25,15 @@ export const useMovieDetails = (movieId: number) => {
   })
 }
 
-export const useFavoriteMovies = () => {
+export const useFavoriteMovies = (sortBy: string = 'created_at.desc') => {
   const { guestSessionId, isAuthenticated } = useAuthStore()
   const { favoriteIds } = useFavorites()
 
   return useInfiniteQuery<MoviesResponse, Error>({
-    queryKey: ['movies', 'favorites', guestSessionId, favoriteIds.join(',')],
+    queryKey: ['movies', 'favorites', guestSessionId, favoriteIds.join(','), sortBy],
     queryFn: ({ pageParam = 1 }) => {
       if (!guestSessionId) throw new Error('Guest session not available')
-      return tmdbService.getFavorites(guestSessionId, pageParam as number)
+      return tmdbService.getFavorites(guestSessionId, pageParam as number, sortBy)
     },
     getNextPageParam: (lastPage: MoviesResponse) =>
       lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined,

@@ -1,13 +1,15 @@
+import FavoritesSortFilter, { SortBy } from '@/components/FavoritesSortFilter'
 import Header from '@/components/Header/Header'
 import VirtualizedMovieGrid from '@/components/VirtualizedMovieGrid/VirtualizedMovieGrid'
 import { useFavoriteMovies } from '@/hooks/useMovies'
 import { Movie } from '@/types/Movie'
 import { IonContent, IonPage } from '@ionic/react'
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import './FavoritesPage.css'
 
 const FavoritesPage: React.FC = () => {
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useFavoriteMovies()
+  const [sortBy, setSortBy] = useState<SortBy>('created_at.desc')
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useFavoriteMovies(sortBy)
 
   const allMovies = useMemo(() => {
     if (!data?.pages) return []
@@ -36,6 +38,7 @@ const FavoritesPage: React.FC = () => {
     <IonPage>
       <Header />
       <IonContent scrollY={false}>
+        <FavoritesSortFilter sortBy={sortBy} onSortChange={setSortBy} />
         <VirtualizedMovieGrid movies={allMovies} onLoadMore={handleLoadMore} isFetchingNextPage={isFetchingNextPage} />
       </IonContent>
     </IonPage>

@@ -40,9 +40,9 @@ export const tmdbService = {
     return response.data
   },
 
-  getFavorites: async (guestSessionId: string, page = 1) => {
+  getFavorites: async (guestSessionId: string, page = 1, sortBy = 'created_at.desc') => {
     const response = await api.get(`/account/${guestSessionId}/favorite/movies`, {
-      params: { language: 'pt-BR', page },
+      params: { language: 'pt-BR', page, sort_by: sortBy },
     })
     return response.data
   },
