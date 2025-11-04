@@ -8,9 +8,10 @@ import { MovieActions, MovieFavoriteButton, MovieImage, MovieInfo, MovieRating }
 interface MovieCardProps {
   movie: Movie
   highlightQuery?: string
+  showDeleteIcon?: boolean
 }
 
-const MovieCard: React.FC<MovieCardProps> = memo(({ movie, highlightQuery }) => {
+const MovieCard: React.FC<MovieCardProps> = memo(({ movie, highlightQuery, showDeleteIcon = false }) => {
   const history = useHistory()
 
   const handleCardClick = () => {
@@ -26,7 +27,7 @@ const MovieCard: React.FC<MovieCardProps> = memo(({ movie, highlightQuery }) => 
 
         <MovieActions>
           <MovieRating rating={movie.vote_average} />
-          <MovieFavoriteButton movieId={movie.id} movieTitle={movie.title} />
+          <MovieFavoriteButton movieId={movie.id} movieTitle={movie.title} showDeleteIcon={showDeleteIcon} />
         </MovieActions>
       </div>
     </IonCard>

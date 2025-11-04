@@ -30,4 +30,10 @@ describe('MovieFavoriteButton', () => {
     fireEvent.click(button!)
     expect(mockToggleFavorite).toHaveBeenCalledWith(1)
   })
+
+  it('shows delete icon when showDeleteIcon is true', () => {
+    const { container } = render(<MovieFavoriteButton movieId={1} movieTitle='Test' showDeleteIcon={true} />)
+    const button = container.querySelector('ion-button')
+    expect(button?.getAttribute('aria-label')).toBe('Remover dos favoritos')
+  })
 })
