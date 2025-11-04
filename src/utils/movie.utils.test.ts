@@ -4,7 +4,7 @@ import { movieUtils } from './movie.utils'
 describe('movieUtils', () => {
   describe('getImageUrl', () => {
     it('returns default image for null path', () => {
-      expect(movieUtils.getImageUrl(null)).toBe('/assets/no-poster-available.png')
+      expect(movieUtils.getImageUrl(null)).toBe('/assets/unavailable-cover.png')
     })
 
     it('builds url with w500 by default', () => {

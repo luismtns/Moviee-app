@@ -1,41 +1,30 @@
 import { describe, expect, it, vi } from 'vitest'
-import { useMovieDetails, usePopularMovies, useSearchMovies } from './useMovies'
 
-vi.mock('@/services/tmdb.service', () => ({
-  tmdbService: {
-    getPopular: vi.fn(() => Promise.resolve({ results: [], page: 1, total_pages: 1 })),
-    getDetails: vi.fn(() => Promise.resolve({ id: 1, title: 'Test Movie' })),
-    search: vi.fn(() => Promise.resolve({ results: [], page: 1, total_pages: 1 })),
-    getFavorites: vi.fn(() => Promise.resolve({ results: [], page: 1, total_pages: 1 })),
-  },
-}))
+const mockUseInfiniteQuery = vi.fn(() => ({ data: null, isLoading: false }))
+const mockUseQuery = vi.fn(() => ({ data: null, isLoading: false }))
 
-vi.mock('@/hooks/useFavorites', () => ({
-  useFavorites: vi.fn(() => ({ favoriteIds: [] })),
+vi.mock('@tanstack/react-query', () => ({
+  useInfiniteQuery: mockUseInfiniteQuery,
+  useQuery: mockUseQuery,
 }))
 
 vi.mock('@/stores/authStore', () => ({
-  useAuthStore: vi.fn(() => ({ guestSessionId: 'test', isAuthenticated: true })),
+  useAuthStore: vi.fn(() => ({ sessionId: 'test', accountId: 123, isAuthenticated: true })),
 }))
 
-vi.mock('@tanstack/react-query', () => ({
-  useInfiniteQuery: vi.fn(() => ({ data: null, isLoading: false })),
-  useQuery: vi.fn(() => ({ data: null, isLoading: false })),
-}))
+vi.mock('@/services/tmdb.service')
 
 describe('useMovies', () => {
-  it('usePopularMovies returns query result', () => {
-    const result = usePopularMovies()
-    expect(result).toBeTruthy()
-  })
+  it('hooks call react query correctly', async () => {
+    const { usePopularMovies, useMovieDetails, useSearchMovies } = await import('./useMovies')
 
-  it('useMovieDetails returns query result', () => {
-    const result = useMovieDetails(1)
-    expect(result).toBeTruthy()
-  })
+    usePopularMovies()
+    expect(mockUseInfiniteQuery).toHaveBeenCalled()
 
-  it('useSearchMovies returns query result', () => {
-    const result = useSearchMovies('test', true)
-    expect(result).toBeTruthy()
+    useMovieDetails(1)
+    expect(mockUseQuery).toHaveBeenCalled()
+
+    useSearchMovies('test', true)
+    expect(mockUseInfiniteQuery).toHaveBeenCalled()
   })
 })

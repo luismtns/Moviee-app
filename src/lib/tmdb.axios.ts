@@ -1,3 +1,4 @@
+import { useAuthStore } from '@/stores/authStore'
 import axios from 'axios'
 
 const API_KEY = import.meta.env.VITE_TMDB_API_V3_KEY
@@ -20,6 +21,12 @@ const api = axios.create({
 
 api.interceptors.request.use((config) => {
   config.headers.Authorization = `Bearer ${API_KEY}`
+
+  const { sessionId } = useAuthStore.getState()
+  if (sessionId && !config.params?.session_id) {
+    config.params = { ...config.params, session_id: sessionId }
+  }
+
   return config
 })
 

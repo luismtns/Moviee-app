@@ -1,4 +1,3 @@
-import { useFavorites } from '@/hooks/useFavorites'
 import { tmdbService } from '@/services/tmdb.service'
 import { useAuthStore } from '@/stores/authStore'
 import type { MovieDetails, MoviesResponse } from '@/types/Movie'
@@ -17,8 +16,10 @@ export const usePopularMovies = () => {
 }
 
 export const useMovieDetails = (movieId: number) => {
+  const { sessionId } = useAuthStore()
+
   return useQuery<MovieDetails, Error>({
-    queryKey: ['movie', 'details', movieId],
+    queryKey: ['movie', 'details', movieId, sessionId],
     queryFn: () => tmdbService.getDetails(movieId),
     enabled: !!movieId,
     staleTime: 10 * 60 * 1_000,
@@ -26,20 +27,19 @@ export const useMovieDetails = (movieId: number) => {
 }
 
 export const useFavoriteMovies = (sortBy: string = 'created_at.desc') => {
-  const { guestSessionId, isAuthenticated } = useAuthStore()
-  const { favoriteIds } = useFavorites()
+  const { accountId, sessionId } = useAuthStore()
 
   return useInfiniteQuery<MoviesResponse, Error>({
-    queryKey: ['movies', 'favorites', guestSessionId, favoriteIds.join(','), sortBy],
+    queryKey: ['movies', 'favorites', accountId, sortBy],
     queryFn: ({ pageParam = 1 }) => {
-      if (!guestSessionId) throw new Error('Guest session not available')
-      return tmdbService.getFavorites(guestSessionId, pageParam as number, sortBy)
+      if (!accountId) throw new Error('Not authenticated')
+      return tmdbService.getFavorites(accountId, pageParam as number, sortBy)
     },
     getNextPageParam: (lastPage: MoviesResponse) =>
       lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined,
     initialPageParam: 1,
-    enabled: isAuthenticated && !!guestSessionId,
-    staleTime: 2 * 60 * 1_000,
+    enabled: !!accountId && !!sessionId,
+    staleTime: 1 * 60 * 1_000,
     refetchOnWindowFocus: true,
   })
 }

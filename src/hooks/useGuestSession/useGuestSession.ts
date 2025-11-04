@@ -1,11 +1,11 @@
 import { useAuthStore } from '@/stores/authStore'
 
 export const useGuestSession = () => {
-  const { guestSessionId, isAuthenticated } = useAuthStore()
+  const { sessionId, isAuthenticated } = useAuthStore()
 
   return {
-    guestSessionId,
+    sessionId,
     isAuthenticated,
-    canRate: isAuthenticated && !!guestSessionId,
+    canFavorite: isAuthenticated && !!sessionId,
   }
 }

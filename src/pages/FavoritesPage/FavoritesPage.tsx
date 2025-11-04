@@ -1,13 +1,18 @@
+import EmptyState from '@/components/EmptyState'
 import FavoritesSortFilter, { SortBy } from '@/components/FavoritesSortFilter'
 import Header from '@/components/Header/Header'
+import LoginButton from '@/components/LoginButton'
 import VirtualizedMovieGrid from '@/components/VirtualizedMovieGrid/VirtualizedMovieGrid'
+import { useAuth } from '@/hooks'
 import { useFavoriteMovies } from '@/hooks/useMovies'
 import { Movie } from '@/types/Movie'
 import { IonContent, IonPage } from '@ionic/react'
+import { heartHalf } from 'ionicons/icons'
 import React, { useMemo, useState } from 'react'
 import './FavoritesPage.css'
 
 const FavoritesPage: React.FC = () => {
+  const { isAuthenticated } = useAuth()
   const [sortBy, setSortBy] = useState<SortBy>('created_at.desc')
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useFavoriteMovies(sortBy)
 
@@ -32,6 +37,19 @@ const FavoritesPage: React.FC = () => {
     if (hasNextPage && !isFetchingNextPage) {
       fetchNextPage()
     }
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <IonPage>
+        <Header />
+        <IonContent>
+          <EmptyState title='Login Necessário' message='Faça login para ver seus filmes favoritos' icon={heartHalf}>
+            <LoginButton />
+          </EmptyState>
+        </IonContent>
+      </IonPage>
+    )
   }
 
   return (

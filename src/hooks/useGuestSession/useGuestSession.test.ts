@@ -4,17 +4,17 @@ import { useGuestSession } from './useGuestSession'
 
 vi.mock('@/stores/authStore', () => ({
   useAuthStore: vi.fn(() => ({
-    guestSessionId: 'test-session',
+    sessionId: 'test-session',
     isAuthenticated: true,
   })),
 }))
 
 describe('useGuestSession', () => {
-  it('returns guest session state', () => {
+  it('returns session state', () => {
     const { result } = renderHook(() => useGuestSession())
 
-    expect(result.current.guestSessionId).toBe('test-session')
+    expect(result.current.sessionId).toBe('test-session')
     expect(result.current.isAuthenticated).toBe(true)
-    expect(result.current.canRate).toBe(true)
+    expect(result.current.canFavorite).toBe(true)
   })
 })
