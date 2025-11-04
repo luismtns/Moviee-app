@@ -1,34 +1,57 @@
+import EmptyState from '@/components/EmptyState/EmptyState'
 import Header from '@/components/Header/Header'
 import VirtualizedMovieGrid from '@/components/VirtualizedMovieGrid/VirtualizedMovieGrid'
 import { useSearchMovies } from '@/hooks/useMovies'
+import { useSearch } from '@/hooks/useSearch'
 import { IonContent, IonPage } from '@ionic/react'
+import { sad, search } from 'ionicons/icons'
 import { useMemo } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 const Search: React.FC = () => {
-  const location = useLocation()
-  const searchParams = new URLSearchParams(location.search)
-  const searchTerm = searchParams.get('q') || ''
+  const history = useHistory()
+  const { searchQuery, clearSearch } = useSearch()
 
   const {
     data: searchData,
     fetchNextPage,
-    isPending,
+    isLoading,
     isFetchingNextPage,
-  } = useSearchMovies(searchTerm, searchTerm.length > 2)
+  } = useSearchMovies(searchQuery, searchQuery.length > 2)
 
   const allMovies = useMemo(() => searchData?.pages.flatMap((page) => page.results) || [], [searchData])
 
+  const handleAction = () => {
+    if (noResults) {
+      history.push('/home')
+    } else {
+      clearSearch()
+    }
+  }
+
+  const noResults = !isLoading && allMovies.length === 0 && searchQuery.length > 2
   return (
     <IonPage>
       <Header />
       <IonContent scrollY={false}>
         <VirtualizedMovieGrid
           movies={allMovies}
-          isPending={isPending}
+          isLoading={isLoading}
           onLoadMore={fetchNextPage}
-          isFetchingNextPage={isFetchingNextPage || isPending}
-          highlightQuery={searchTerm}
+          isFetchingNextPage={isFetchingNextPage || isLoading}
+          highlightQuery={searchQuery}
+          emptyComponent={
+            <EmptyState
+              icon={!noResults ? search : sad}
+              message={
+                noResults
+                  ? 'Nenhum resultado encontrado para sua busca.'
+                  : 'Utilize o campo de busca acima para encontrar filmes.'
+              }
+              onAction={handleAction}
+              actionLabel={noResults ? 'Explorar filmes' : 'Limpar busca'}
+            />
+          }
         />
       </IonContent>
     </IonPage>
