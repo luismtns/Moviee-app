@@ -1,6 +1,7 @@
 import Header from '@/components/Header/Header'
 import { useMovieDetails } from '@/hooks/useMovies'
 import dayjs from '@/lib/dayjs'
+import { openExternalUrl } from '@/utils/navigation.utils'
 import { IonButton, IonCol, IonContent, IonGrid, IonIcon, IonPage, IonRow, IonSpinner, IonText } from '@ionic/react'
 import { arrowUpRightBoxOutline, calendar, cash, film, star, wallet } from 'ionicons/icons'
 import React from 'react'
@@ -95,7 +96,7 @@ const MovieDetails: React.FC = () => {
                           <IonButton
                             disabled={!data.homepage}
                             color={'tertiary'}
-                            onClick={() => window.open(data.homepage || '', '_system', 'location=yes')}>
+                            onClick={() => openExternalUrl(data.homepage || '')}>
                             {data.homepage ? 'Visitar Site' : 'Indisponível'}
                             <IonIcon slot='end' icon={arrowUpRightBoxOutline} />
                           </IonButton>

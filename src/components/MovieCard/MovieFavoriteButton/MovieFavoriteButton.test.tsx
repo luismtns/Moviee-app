@@ -4,14 +4,18 @@ import MovieFavoriteButton from './MovieFavoriteButton'
 
 const mockToggleFavorite = vi.fn()
 const mockIsFavorite = vi.fn(() => false)
+const mockPush = vi.fn()
 
 vi.mock('@/hooks/useFavorites', () => ({
   useFavorites: () => ({
     isFavorite: mockIsFavorite,
     toggleFavorite: mockToggleFavorite,
-    isLoading: false,
     canUseFavorites: true,
   }),
+}))
+
+vi.mock('react-router-dom', () => ({
+  useHistory: () => ({ push: mockPush }),
 }))
 
 vi.mock('@/utils/notifications', () => ({

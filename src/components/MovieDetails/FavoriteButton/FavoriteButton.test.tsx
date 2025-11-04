@@ -6,7 +6,12 @@ vi.mock('@/hooks/useFavorites', () => ({
   useFavorites: () => ({
     isFavorite: vi.fn(() => false),
     toggleFavorite: vi.fn(),
+    canUseFavorites: true,
   }),
+}))
+
+vi.mock('react-router-dom', () => ({
+  useHistory: () => ({ push: vi.fn() }),
 }))
 
 describe('FavoriteButton', () => {

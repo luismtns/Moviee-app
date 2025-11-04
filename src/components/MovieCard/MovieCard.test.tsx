@@ -6,8 +6,8 @@ import MovieCard from './MovieCard'
 vi.mock('@/hooks/useFavorites', () => ({
   useFavorites: () => ({
     isFavorite: vi.fn(() => false),
-    addFavorite: vi.fn(),
-    removeFavorite: vi.fn(),
+    toggleFavorite: vi.fn(),
+    canUseFavorites: true,
   }),
 }))
 

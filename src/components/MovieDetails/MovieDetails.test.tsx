@@ -5,6 +5,13 @@ import { describe, expect, it, vi } from 'vitest'
 import MovieDetails from './MovieDetails'
 
 vi.mock('@/hooks/useMovies')
+vi.mock('@/hooks/useFavorites', () => ({
+  useFavorites: () => ({
+    isFavorite: vi.fn(() => false),
+    toggleFavorite: vi.fn(),
+    canUseFavorites: true,
+  }),
+}))
 vi.mock('@/components/Header/Header', () => ({ default: () => <div>Header</div> }))
 
 const mockMovie = {
