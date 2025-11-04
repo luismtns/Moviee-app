@@ -1,4 +1,4 @@
-import useAuthHydration from '@/hooks/useAuthHydrated'
+import { useAuthHydrated } from '@/hooks'
 import { authService } from '@/services/auth.service'
 import { useAuthStore } from '@/stores/authStore'
 import React, { createContext, useContext, useEffect, type ReactNode } from 'react'
@@ -11,7 +11,7 @@ interface AuthContextValue {
 const AuthContext = createContext<AuthContextValue | undefined>(undefined)
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const hydrated = useAuthHydration()
+  const hydrated = useAuthHydrated()
   const { guestSessionId, expiresAt, isAuthenticated, setSession, clearSession } = useAuthStore()
 
   useEffect(() => {
