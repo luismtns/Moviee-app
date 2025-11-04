@@ -1,6 +1,13 @@
 .card-content {
-  padding-bottom: var(--ion-padding, 8px);
-  height: 100%;
+  --ion-padding: 1rem;
+  --movie-image-height: 75%;
+  padding: var(--ion-padding);
+  height: calc(100% - var(--movie-image-height));
+}
+@media (max-width: 768px) {
+  .card-content {
+    --ion-padding: 0.4rem;
+  }
 }
 
 .card-title {
@@ -14,10 +21,20 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+@media (max-width: 768px) {
+  .card-title {
+    font-size: 1rem;
+  }
+}
 
 .card-subtitle {
   color: var(--ion-color-medium);
   font-size: 0.9rem;
   font-weight: 400;
   margin: 0;
+}
+@media (max-width: 768px) {
+  .card-subtitle {
+    font-size: 0.75rem;
+  }
 }

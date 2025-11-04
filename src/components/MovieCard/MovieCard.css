@@ -7,6 +7,12 @@
   margin: 0;
   position: relative;
 }
+
+@media (max-width: 768px) {
+  .movie-card {
+    --movie-card-height: 18rem;
+  }
+}
 .movie-card-wrapper {
   position: relative;
   height: var(--movie-card-height);

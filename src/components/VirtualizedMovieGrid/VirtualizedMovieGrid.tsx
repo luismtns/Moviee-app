@@ -56,7 +56,7 @@ const VirtualizedMovieGrid: React.FC<VirtualizedMovieGridProps> = ({
           <IonCol
             ref={ref as React.Ref<HTMLIonColElement>}
             className={clsx(className, 'movie-grid-col')}
-            size='12'
+            size='6'
             sizeSm='6'
             sizeMd='4'
             sizeLg='3'
