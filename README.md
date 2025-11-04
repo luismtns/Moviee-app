@@ -47,7 +47,6 @@ A aplicação estará disponível em http://localhost:5173
 - Arquitetura modular com componentes atomizados
 - Testes unitários com 70%+ de cobertura
 - CI/CD com GitHub Actions
-- PWA configurado para funcionamento offline
 - Ordenação de favoritos por data ou avaliação
 - Highlight do termo de busca nos resultados
 - Build mobile Android/iOS via Capacitor
