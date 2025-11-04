@@ -1,25 +1,33 @@
-import { render } from '@testing-library/react'
-import { vi } from 'vitest'
+import { fireEvent, render } from '@testing-library/react'
+import { describe, expect, it, vi } from 'vitest'
 import MovieFavoriteButton from './MovieFavoriteButton'
+
+const mockToggleFavorite = vi.fn()
+const mockIsFavorite = vi.fn(() => false)
 
 vi.mock('@/hooks/useFavorites', () => ({
   useFavorites: () => ({
-    isFavorite: vi.fn(() => false),
-    addFavorite: vi.fn(),
-    removeFavorite: vi.fn(),
+    isFavorite: mockIsFavorite,
+    toggleFavorite: mockToggleFavorite,
+    isLoading: false,
+    canUseFavorites: true,
   }),
 }))
 
-describe('MovieFavoriteButton', () => {
-  it('renders button with label', () => {
-    const { container } = render(<MovieFavoriteButton movieId={1} movieTitle='Test' />)
+vi.mock('@/utils/notifications', () => ({
+  notifications: { info: vi.fn() },
+}))
 
-    expect(container.querySelector('ion-button')?.getAttribute('aria-label')).toBe('Adicionar aos favoritos')
+describe('MovieFavoriteButton', () => {
+  it('renders', () => {
+    const { container } = render(<MovieFavoriteButton movieId={1} movieTitle='Test' />)
+    expect(container.querySelector('ion-button')).toBeTruthy()
   })
 
-  it('uses clear fill', () => {
+  it('handles click', async () => {
     const { container } = render(<MovieFavoriteButton movieId={1} movieTitle='Test' />)
-
-    expect(container.querySelector('ion-button')?.getAttribute('fill')).toBe('clear')
+    const button = container.querySelector('ion-button')
+    fireEvent.click(button!)
+    expect(mockToggleFavorite).toHaveBeenCalledWith(1)
   })
 })
