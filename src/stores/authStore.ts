@@ -50,6 +50,7 @@ export const useAuthStore = create<AuthStore>()(
     {
       name: 'moviee-auth',
       storage: createJSONStorage(() => createUnifiedStorage()),
+      version: 2, // TODO: increment version when making breaking changes to the store manually - implement version migrations if needed
     }
   )
 )
