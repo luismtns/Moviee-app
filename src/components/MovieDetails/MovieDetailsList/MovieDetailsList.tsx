@@ -1,76 +1,42 @@
-import dayjs from '@/lib/dayjs'
 import { IonIcon, IonItem, IonLabel, IonList } from '@ionic/react'
-import { calendar, cash, star, wallet } from 'ionicons/icons'
-import { memo } from 'react'
+import { ReactNode, memo } from 'react'
 import './MovieDetailsList.css'
 
-interface MovieDetailsListProps {
-  releaseDate: string
-  voteAverage: number
-  voteCount: number
-  budget?: number
-  revenue?: number
+export interface Field<T = any> {
+  key: string
+  icon: string
+  label: string
+  render?: (data: T) => ReactNode
 }
 
-const MovieDetailsList: React.FC<MovieDetailsListProps> = memo(
-  ({ releaseDate, voteAverage, voteCount, budget, revenue }) => {
-    const formattedReleaseDate = dayjs(releaseDate).format('LL')
-    const rating = voteAverage.toFixed(1)
-    const formattedVoteCount = voteCount.toLocaleString()
+interface MovieDetailsListProps<T = any> {
+  data: T
+  fields: Field<T>[]
+}
 
-    const formatCurrency = (amount: number | undefined) => {
-      if (!amount || amount === 0) return 'N/A'
-      return new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-      }).format(amount)
-    }
+const getNestedValue = (obj: any, path: string): any => {
+  return path.split('.').reduce((acc, part) => acc?.[part], obj)
+}
 
-    const budgetFormatted = formatCurrency(budget)
-    const revenueFormatted = formatCurrency(revenue)
+const MovieDetailsList = memo(<T,>({ data, fields }: MovieDetailsListProps<T>) => {
+  return (
+    <IonList className='movie-meta-list'>
+      {fields.map((field) => {
+        const value = getNestedValue(data, field.key)
+        const content = field.render ? field.render(data) : value?.toString() || 'N/A'
 
-    return (
-      <IonList className='movie-meta-list'>
-        <IonItem>
-          <IonIcon slot='start' icon={calendar} />
-          <IonLabel>
-            <h2>Data de Lançamento</h2>
-            <p>{formattedReleaseDate}</p>
-          </IonLabel>
-        </IonItem>
-
-        <IonItem>
-          <IonIcon slot='start' icon={star} />
-          <IonLabel>
-            <h2>Nota do TMDB</h2>
-            <p>
-              Nota <strong>{rating}</strong> de 10 com <strong>{formattedVoteCount}</strong> votos
-            </p>
-          </IonLabel>
-        </IonItem>
-
-        <IonItem>
-          <IonIcon slot='start' icon={cash} />
-          <IonLabel>
-            <h2>Orçamento</h2>
-            <p>
-              <strong>{budgetFormatted}</strong>
-            </p>
-          </IonLabel>
-        </IonItem>
-
-        <IonItem>
-          <IonIcon slot='start' icon={wallet} />
-          <IonLabel>
-            <h2>Receita</h2>
-            <p>
-              <strong>{revenueFormatted}</strong>
-            </p>
-          </IonLabel>
-        </IonItem>
-      </IonList>
-    )
-  }
-)
+        return (
+          <IonItem key={field.key}>
+            <IonIcon slot='start' icon={field.icon} />
+            <IonLabel>
+              <h2>{field.label}</h2>
+              {typeof content === 'string' ? <p dangerouslySetInnerHTML={{ __html: content }} /> : <div>{content}</div>}
+            </IonLabel>
+          </IonItem>
+        )
+      })}
+    </IonList>
+  )
+}) as <T>(props: MovieDetailsListProps<T>) => React.JSX.Element
 
 export default MovieDetailsList
