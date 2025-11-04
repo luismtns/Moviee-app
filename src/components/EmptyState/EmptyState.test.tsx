@@ -16,15 +16,20 @@ describe('EmptyState', () => {
     expect(container.textContent).toContain('Test')
   })
 
-  it('renders title', () => {
-    const { container } = render(<EmptyState icon='film-outline' message='Test' title='Title' />)
+  it('renders title and button', () => {
+    const { container } = render(
+      <EmptyState icon='film-outline' message='Test' title='Title' actionLabel='Click' onAction={vi.fn()} />
+    )
     expect(container.textContent).toContain('Title')
+    expect(container.querySelector('ion-button')).toBeTruthy()
   })
 
-  it('renders button', () => {
+  it('renders children', () => {
     const { container } = render(
-      <EmptyState icon='film-outline' message='Test' actionLabel='Click' onAction={vi.fn()} />
+      <EmptyState icon='film-outline' message='Test'>
+        <div>Child</div>
+      </EmptyState>
     )
-    expect(container.querySelector('ion-button')).toBeTruthy()
+    expect(container.textContent).toContain('Child')
   })
 })

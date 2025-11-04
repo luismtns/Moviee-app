@@ -1,6 +1,6 @@
 import { IonButton, IonCard, IonIcon, IonText } from '@ionic/react'
 import { sad } from 'ionicons/icons'
-import React from 'react'
+import React, { ReactNode } from 'react'
 import './EmptyState.css'
 
 interface EmptyStateProps {
@@ -10,6 +10,7 @@ interface EmptyStateProps {
   actionLabel?: string
   onAction?: () => void
   actionHref?: string
+  children?: ReactNode
 }
 
 const EmptyState: React.FC<EmptyStateProps> = ({
@@ -19,6 +20,7 @@ const EmptyState: React.FC<EmptyStateProps> = ({
   actionLabel,
   onAction,
   actionHref,
+  children,
 }) => {
   return (
     <IonCard className='empty-state'>
@@ -40,6 +42,8 @@ const EmptyState: React.FC<EmptyStateProps> = ({
             {actionLabel}
           </IonButton>
         )}
+
+        {children}
       </div>
     </IonCard>
   )
