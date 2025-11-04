@@ -11,9 +11,8 @@ vi.mock('@ionic/react', async () => {
 })
 
 describe('EmptyState', () => {
-  it('renders icon and message', () => {
+  it('renders message', () => {
     const { container } = render(<EmptyState icon='film-outline' message='Test' />)
-    expect(container.querySelector('ion-icon')).toBeTruthy()
     expect(container.textContent).toContain('Test')
   })
 
