@@ -1,30 +1,42 @@
 import { useAuthHydrated } from '@/hooks'
 import { authService } from '@/services/auth.service'
 import { useAuthStore } from '@/stores/authStore'
+import { getCurrentPathname, getUrlParams, replaceHistoryState } from '@/utils/navigation.utils'
 import React, { useEffect, type ReactNode } from 'react'
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const hydrated = useAuthHydrated()
-  const { guestSessionId, expiresAt, isAuthenticated, setSession, clearSession } = useAuthStore()
+  const { sessionId, requestToken, isAuthenticated, setSession, clearSession } = useAuthStore()
 
   useEffect(() => {
     if (!hydrated) return
 
     const initializeAuth = async () => {
-      if (isAuthenticated && guestSessionId) {
+      if (isAuthenticated && sessionId && authService.isSessionValid(sessionId)) {
+        try {
+          const account = await authService.getAccountDetails(sessionId)
+          setSession(sessionId, account)
+        } catch {
+          clearSession()
+        }
         return
       }
 
-      if (guestSessionId && expiresAt && authService.isSessionValid(expiresAt)) {
-        setSession(guestSessionId, expiresAt)
-        return
-      }
+      const urlParams = getUrlParams()
+      const approvedToken = urlParams.get('request_token')
+      const approved = urlParams.get('approved')
 
-      try {
-        const session = await authService.createGuestSession()
-        setSession(session.guest_session_id, session.expires_at)
-      } catch {
-        clearSession()
+      if (approvedToken && approved === 'true' && requestToken === approvedToken) {
+        try {
+          const session = await authService.createSession(approvedToken)
+          const account = await authService.getAccountDetails(session.session_id)
+          setSession(session.session_id, account)
+
+          replaceHistoryState(getCurrentPathname())
+        } catch (error) {
+          console.error('Failed to create session:', error)
+          clearSession()
+        }
       }
     }
 

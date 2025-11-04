@@ -1,32 +1,28 @@
-import { waitFor } from '@testing-library/react'
-import { describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it } from 'vitest'
 import { useFavoritesStore } from './favoritesStore'
 
-vi.mock('@/services/tmdb.service', () => ({
-  tmdbService: {
-    addToFavorites: vi.fn(),
-    removeFromFavorites: vi.fn(),
-  },
-}))
-
 describe('favoritesStore', () => {
-  it('initializes empty', () => {
-    const { favoriteIds } = useFavoritesStore.getState()
-    expect(favoriteIds).toBeDefined()
+  beforeEach(() => {
+    useFavoritesStore.setState({ favoriteIds: new Set() })
   })
 
-  it('checks favorite', () => {
-    const isFav = useFavoritesStore.getState().isFavorite(1)
-    expect(typeof isFav).toBe('boolean')
+  it('syncs favorites from array', () => {
+    useFavoritesStore.getState().sync([1, 2, 3])
+    expect(useFavoritesStore.getState().has(1)).toBe(true)
+    expect(useFavoritesStore.getState().has(2)).toBe(true)
+    expect(useFavoritesStore.getState().has(3)).toBe(true)
   })
 
-  it('adds favorite', async () => {
-    await useFavoritesStore.getState().addFavorite(999, 'test')
-    await waitFor(() => expect(useFavoritesStore.getState().isFavorite(999)).toBe(true))
+  it('checks if movie is favorite', () => {
+    useFavoritesStore.getState().sync([1, 2])
+    expect(useFavoritesStore.getState().has(1)).toBe(true)
+    expect(useFavoritesStore.getState().has(999)).toBe(false)
   })
 
-  it('toggles favorite', async () => {
-    await useFavoritesStore.getState().toggleFavorite(888, 'test')
-    await waitFor(() => expect(useFavoritesStore.getState().isFavorite(888)).toBe(true))
+  it('clears all favorites', () => {
+    useFavoritesStore.getState().sync([1, 2, 3])
+    useFavoritesStore.getState().clear()
+    expect(useFavoritesStore.getState().has(1)).toBe(false)
+    expect(useFavoritesStore.getState().has(2)).toBe(false)
   })
 })

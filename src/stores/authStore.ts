@@ -1,34 +1,48 @@
 import { createUnifiedStorage } from '@/lib/storage.factory'
+import type { Account } from '@/types/Auth'
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 
 interface AuthStore {
-  guestSessionId: string | null
-  expiresAt: string | null
+  sessionId: string | null
+  accountId: number | null
+  requestToken: string | null
+  account: Account | null
   isAuthenticated: boolean
-  setSession: (guestSessionId: string, expiresAt: string) => void
+  setRequestToken: (token: string) => void
+  setSession: (sessionId: string, account: Account) => void
   clearSession: () => void
 }
 
 export const useAuthStore = create<AuthStore>()(
   persist(
     (set) => ({
-      guestSessionId: null,
-      expiresAt: null,
+      sessionId: null,
+      accountId: null,
+      requestToken: null,
+      account: null,
       isAuthenticated: false,
 
-      setSession: (guestSessionId: string, expiresAt: string) => {
+      setRequestToken: (token: string) => {
+        set({ requestToken: token })
+      },
+
+      setSession: (sessionId: string, account: Account) => {
         set({
-          guestSessionId,
-          expiresAt,
+          sessionId,
+          accountId: account.id,
+          account,
+          requestToken: null,
           isAuthenticated: true,
         })
       },
 
       clearSession: () => {
         set({
-          guestSessionId: null,
-          expiresAt: null,
+          sessionId: null,
+          accountId: null,
+          requestToken: null,
+          account: null,
           isAuthenticated: false,
         })
       },

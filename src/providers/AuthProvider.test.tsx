@@ -2,15 +2,26 @@ import { render } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 import { AuthProvider } from './AuthProvider'
 
-vi.mock('@/hooks/useGuestSession', () => ({
-  useGuestSession: vi.fn(() => ({
+vi.mock('@/services/auth.service', () => ({
+  authService: {
+    getAccountDetails: vi.fn(),
     createSession: vi.fn(),
-    isLoading: false,
-  })),
+    isSessionValid: vi.fn(() => true),
+  },
 }))
 
 vi.mock('@/hooks/useAuthHydrated', () => ({
   useAuthHydrated: vi.fn(() => true),
+}))
+
+vi.mock('@/stores/authStore', () => ({
+  useAuthStore: vi.fn(() => ({
+    sessionId: null,
+    requestToken: null,
+    isAuthenticated: false,
+    setSession: vi.fn(),
+    clearSession: vi.fn(),
+  })),
 }))
 
 describe('AuthProvider', () => {

@@ -20,6 +20,11 @@ export interface MovieDetails extends Movie {
   homepage: string | null
   budget: number
   revenue: number
+  account_states?: {
+    favorite: boolean
+    rated: boolean | { value: number }
+    watchlist: boolean
+  }
 }
 
 export interface Genre {

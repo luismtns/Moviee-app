@@ -22,8 +22,8 @@ export const tmdbService = {
     return response.data
   },
 
-  addToFavorites: async (movieId: number, guestSessionId: string) => {
-    const response = await api.post(`/account/${guestSessionId}/favorite`, {
+  addToFavorites: async (movieId: number, accountID: number) => {
+    const response = await api.post(`/account/${accountID}/favorite`, {
       media_type: 'movie',
       media_id: movieId,
       favorite: true,
@@ -31,8 +31,8 @@ export const tmdbService = {
     return response.data
   },
 
-  removeFromFavorites: async (movieId: number, guestSessionId: string) => {
-    const response = await api.post(`/account/${guestSessionId}/favorite`, {
+  removeFromFavorites: async (movieId: number, accountID: number) => {
+    const response = await api.post(`/account/${accountID}/favorite`, {
       media_type: 'movie',
       media_id: movieId,
       favorite: false,
@@ -40,8 +40,8 @@ export const tmdbService = {
     return response.data
   },
 
-  getFavorites: async (guestSessionId: string, page = 1, sortBy = 'created_at.desc') => {
-    const response = await api.get(`/account/${guestSessionId}/favorite/movies`, {
+  getFavorites: async (accountID: number, page = 1, sortBy = 'created_at.desc') => {
+    const response = await api.get(`/account/${accountID}/favorite/movies`, {
       params: { language: 'pt-BR', page, sort_by: sortBy },
     })
     return response.data
