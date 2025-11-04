@@ -18,7 +18,9 @@ const Header = ({ backHref }: HeaderProps) => {
         )}
         <IonTitle slot='start'>
           <Logo />
-          <span className='app-name ion-display-none ion-display-md-inline'>Moviee</span>
+          <span className='ion-display-none' aria-label='Moviee explorer' hidden>
+            Moviee explorer
+          </span>
         </IonTitle>
         <SearchBar />
         <Navigation />

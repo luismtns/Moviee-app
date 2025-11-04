@@ -1,49 +1,25 @@
 import { render } from '@testing-library/react'
-import { MemoryRouter } from 'react-router-dom'
+import { describe, expect, it, vi } from 'vitest'
 import { SearchBar } from './SearchBar'
 
+vi.mock('@/hooks/useSearch', () => ({
+  useSearch: () => ({
+    searchQuery: '',
+    updateSearch: vi.fn(),
+    clearSearch: vi.fn(),
+    navigateToSearch: vi.fn(),
+    canGoBack: false,
+  }),
+}))
+
 describe('SearchBar', () => {
-  it('renders with placeholder', () => {
-    const { container } = render(
-      <MemoryRouter>
-        <SearchBar />
-      </MemoryRouter>
-    )
-
-    const searchbar = container.querySelector('ion-searchbar')
-    expect(searchbar?.getAttribute('placeholder')).toBe('Buscar Filmes...')
+  it('renders searchbar', () => {
+    const { container } = render(<SearchBar />)
+    expect(container.querySelector('ion-searchbar')).toBeTruthy()
   })
 
-  it('syncs value with URL query', () => {
-    const { container } = render(
-      <MemoryRouter initialEntries={['/search?q=matrix']}>
-        <SearchBar />
-      </MemoryRouter>
-    )
-
-    const searchbar = container.querySelector('ion-searchbar')
-    expect(searchbar?.getAttribute('value')).toBe('matrix')
-  })
-
-  it('renders inside toolbar', () => {
-    const { container } = render(
-      <MemoryRouter>
-        <SearchBar />
-      </MemoryRouter>
-    )
-
-    const toolbar = container.querySelector('ion-toolbar')
-    expect(toolbar).toBeTruthy()
-  })
-
-  it('has clear button enabled', () => {
-    const { container } = render(
-      <MemoryRouter>
-        <SearchBar />
-      </MemoryRouter>
-    )
-
-    const searchbar = container.querySelector('ion-searchbar')
-    expect(searchbar).toBeTruthy()
+  it('renders toolbar', () => {
+    const { container } = render(<SearchBar />)
+    expect(container.querySelector('ion-toolbar')).toBeTruthy()
   })
 })

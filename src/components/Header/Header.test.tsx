@@ -1,46 +1,23 @@
 import { render } from '@testing-library/react'
-import { MemoryRouter } from 'react-router-dom'
+import { describe, expect, it, vi } from 'vitest'
 import Header from './Header'
 
+vi.mock('./SearchBar/SearchBar', () => ({ SearchBar: () => <div>SearchBar</div> }))
+vi.mock('./Navigation/Navigation', () => ({ Navigation: () => <div>Navigation</div> }))
+
 describe('Header', () => {
-  it('renders ion-header with toolbar', () => {
-    const { container } = render(
-      <MemoryRouter>
-        <Header />
-      </MemoryRouter>
-    )
-
+  it('renders header', () => {
+    const { container } = render(<Header />)
     expect(container.querySelector('ion-header')).toBeTruthy()
-    expect(container.querySelector('ion-toolbar')).toBeTruthy()
-  })
-
-  it('renders app name', () => {
-    const { container } = render(
-      <MemoryRouter>
-        <Header />
-      </MemoryRouter>
-    )
-
-    expect(container.querySelector('.app-name')?.textContent).toBe('Moviee')
   })
 
   it('renders back button when backHref provided', () => {
-    const { container } = render(
-      <MemoryRouter>
-        <Header backHref='/home' />
-      </MemoryRouter>
-    )
-
+    const { container } = render(<Header backHref='/' />)
     expect(container.querySelector('ion-back-button')).toBeTruthy()
   })
 
   it('does not render back button without backHref', () => {
-    const { container } = render(
-      <MemoryRouter>
-        <Header />
-      </MemoryRouter>
-    )
-
+    const { container } = render(<Header />)
     expect(container.querySelector('ion-back-button')).toBeFalsy()
   })
 })

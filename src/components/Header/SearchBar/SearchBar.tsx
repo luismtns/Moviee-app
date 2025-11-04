@@ -1,6 +1,6 @@
+import { useSearch } from '@/hooks/useSearch'
 import { IonSearchbar, IonToolbar, useIonViewDidEnter } from '@ionic/react'
-import React, { useRef } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useRef } from 'react'
 import './SearchBar.css'
 
 interface SearchBarProps {
@@ -9,39 +9,37 @@ interface SearchBarProps {
 }
 
 export const SearchBar: React.FC<SearchBarProps> = ({ placeholder = 'Buscar Filmes...' }) => {
-  const history = useHistory()
-  const location = useLocation()
-  const searchParams = new URLSearchParams(location.search)
-  const queryTerm = searchParams.get('q') || ''
-
+  const { searchQuery, updateSearch, clearSearch, navigateToSearch } = useSearch()
   const inputRef = useRef<HTMLIonSearchbarElement>(null)
 
   const handleInput = (e: CustomEvent) => {
     const term = e.detail.value || ''
-    if (term) {
-      history.push(`/search?q=${encodeURIComponent(term)}`)
-    } else {
-      history.push('/')
-    }
+    updateSearch(term)
+  }
+
+  const handleFocus = () => {
+    navigateToSearch()
   }
 
   const handleClear = () => {
-    history.push('/')
+    clearSearch()
   }
 
   useIonViewDidEnter(() => {
-    if (location.search.includes('q=')) {
+    if (location.pathname === '/search') {
       inputRef.current?.setFocus()
     }
   })
+
   return (
     <IonToolbar className='search-container' slot='start'>
       <IonSearchbar
         ref={inputRef}
-        value={queryTerm}
+        value={searchQuery}
         placeholder={placeholder}
         onIonChange={handleInput}
         onIonClear={handleClear}
+        onIonFocus={handleFocus}
         showClearButton='always'
         debounce={800}
         className='search-bar'
