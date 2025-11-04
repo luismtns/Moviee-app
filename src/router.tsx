@@ -14,21 +14,11 @@ export const Router: React.FC = () => {
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet animated={false}>
-          <Route exact path='/home'>
-            <Home />
-          </Route>
-          <Route exact path='/favorites'>
-            <FavoritesPage />
-          </Route>
-          <Route exact path='/movie/:id'>
-            <MovieDetailsPage />
-          </Route>
-          <Route exact path='/search'>
-            <Search />
-          </Route>
-          <Route exact path='/'>
-            <Redirect to='/home' />
-          </Route>
+          <Route exact path='/home' component={Home} />
+          <Route exact path='/favorites' component={FavoritesPage} />
+          <Route exact path='/movie/:id' component={MovieDetailsPage} />
+          <Route exact path='/search' component={Search} />
+          <Redirect exact from='/' to='/home' />
         </IonRouterOutlet>
 
         <TabBar />
