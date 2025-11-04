@@ -44,6 +44,7 @@ const FavoritesPage: React.FC = () => {
           isLoading={isLoading}
           onLoadMore={handleLoadMore}
           isFetchingNextPage={isFetchingNextPage}
+          showDeleteIcon={true}
         />
       </IonContent>
     </IonPage>
