@@ -1,4 +1,5 @@
 import { render } from '@testing-library/react'
+import { MemoryRouter } from 'react-router-dom'
 import { describe, expect, it, vi } from 'vitest'
 import { SearchBar } from './SearchBar'
 
@@ -15,12 +16,20 @@ vi.mock('@/hooks/useSearch', () => ({
 
 describe('SearchBar', () => {
   it('renders', () => {
-    const { container } = render(<SearchBar />)
+    const { container } = render(
+      <MemoryRouter>
+        <SearchBar />
+      </MemoryRouter>
+    )
     expect(container.querySelector('ion-searchbar')).toBeTruthy()
   })
 
   it('handles input', () => {
-    const { container } = render(<SearchBar />)
+    const { container } = render(
+      <MemoryRouter>
+        <SearchBar />
+      </MemoryRouter>
+    )
     const searchbar = container.querySelector('ion-searchbar')
     const event = new CustomEvent('ionChange', { detail: { value: 'test' } })
     searchbar?.dispatchEvent(event)
@@ -28,7 +37,11 @@ describe('SearchBar', () => {
   })
 
   it('handles clear', () => {
-    const { container } = render(<SearchBar />)
+    const { container } = render(
+      <MemoryRouter>
+        <SearchBar />
+      </MemoryRouter>
+    )
     const searchbar = container.querySelector('ion-searchbar')
     const event = new CustomEvent('ionClear')
     searchbar?.dispatchEvent(event)
