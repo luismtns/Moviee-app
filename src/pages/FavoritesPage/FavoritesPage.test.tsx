@@ -1,4 +1,5 @@
 import { render } from '@testing-library/react'
+import React from 'react'
 import { describe, expect, it, vi } from 'vitest'
 import FavoritesPage from './FavoritesPage'
 
@@ -34,9 +35,12 @@ vi.mock('@/components/LoginButton', () => ({
   default: () => <div>LoginButton</div>,
 }))
 
-vi.mock('@/components/FavoritesSortFilter', () => ({
+vi.mock('@/components/EmptyState', () => ({
+  default: ({ children }: { children?: React.ReactNode }) => <>{children}</>,
+}))
+
+vi.mock('@/components/FavoritesToolbar', () => ({
   default: () => null,
-  SortBy: {},
 }))
 
 vi.mock('@/components/VirtualizedMovieGrid/VirtualizedMovieGrid', () => ({

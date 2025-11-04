@@ -66,6 +66,14 @@ const FavoritesPage: React.FC = () => {
           onLoadMore={handleLoadMore}
           isFetchingNextPage={isFetchingNextPage}
           showDeleteIcon={true}
+          emptyComponent={
+            <EmptyState
+              icon={heartHalf}
+              message='Nenhum filme favorito encontrado'
+              actionHref='/'
+              actionLabel='Explorar filmes'
+            />
+          }
         />
       </IonContent>
     </IonPage>
