@@ -1,6 +1,7 @@
 import { useSearch } from '@/hooks/useSearch'
 import { IonSearchbar, IonToolbar, useIonViewDidEnter } from '@ionic/react'
 import { useRef } from 'react'
+import { useRouteMatch } from 'react-router'
 import './SearchBar.css'
 
 interface SearchBarProps {
@@ -10,7 +11,8 @@ interface SearchBarProps {
 }
 
 export const SearchBar: React.FC<SearchBarProps> = ({ placeholder = 'Buscar Filmes...' }) => {
-  const { searchQuery, updateSearch, clearSearch, navigateToSearch } = useSearch()
+  const isSearchRoute = useRouteMatch('/search')
+  const { searchQuery, updateSearch, clearSearch } = useSearch()
   const inputRef = useRef<HTMLIonSearchbarElement>(null)
 
   const handleInput = (e: CustomEvent) => {
@@ -18,16 +20,12 @@ export const SearchBar: React.FC<SearchBarProps> = ({ placeholder = 'Buscar Film
     updateSearch(term)
   }
 
-  const handleFocus = () => {
-    navigateToSearch()
-  }
-
   const handleClear = () => {
     clearSearch()
   }
 
   useIonViewDidEnter(() => {
-    if (location.pathname === '/search') {
+    if (isSearchRoute) {
       inputRef.current?.setFocus()
     }
   })
@@ -40,7 +38,6 @@ export const SearchBar: React.FC<SearchBarProps> = ({ placeholder = 'Buscar Film
         placeholder={placeholder}
         onIonChange={handleInput}
         onIonClear={handleClear}
-        onIonFocus={handleFocus}
         showClearButton='always'
         debounce={800}
         className='search-bar'

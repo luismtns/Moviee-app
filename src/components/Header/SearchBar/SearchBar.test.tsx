@@ -4,15 +4,12 @@ import { SearchBar } from './SearchBar'
 
 const mockUpdateSearch = vi.fn()
 const mockClearSearch = vi.fn()
-const mockNavigateToSearch = vi.fn()
 
 vi.mock('@/hooks/useSearch', () => ({
   useSearch: () => ({
     searchQuery: '',
     updateSearch: mockUpdateSearch,
     clearSearch: mockClearSearch,
-    navigateToSearch: mockNavigateToSearch,
-    canGoBack: false,
   }),
 }))
 
@@ -36,13 +33,5 @@ describe('SearchBar', () => {
     const event = new CustomEvent('ionClear')
     searchbar?.dispatchEvent(event)
     expect(mockClearSearch).toHaveBeenCalled()
-  })
-
-  it('handles focus', () => {
-    const { container } = render(<SearchBar />)
-    const searchbar = container.querySelector('ion-searchbar')
-    const event = new CustomEvent('ionFocus')
-    searchbar?.dispatchEvent(event)
-    expect(mockNavigateToSearch).toHaveBeenCalled()
   })
 })
