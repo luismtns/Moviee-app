@@ -1,9 +1,9 @@
-import { IonIcon, IonLabel, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs } from '@ionic/react'
+import { IonRouterOutlet, IonTabs } from '@ionic/react'
 import { IonReactRouter } from '@ionic/react-router'
-import { heart, home, search } from 'ionicons/icons'
 import React from 'react'
-import { Route } from 'react-router-dom'
+import { Redirect, Route } from 'react-router-dom'
 
+import { TabBar } from '@/components/TabBar/TabBar'
 import FavoritesPage from '@/pages/FavoritesPage/FavoritesPage'
 import Home from '@/pages/Home/Home'
 import MovieDetailsPage from '@/pages/MovieDetailsPage'
@@ -13,8 +13,11 @@ export const Router: React.FC = () => {
   return (
     <IonReactRouter>
       <IonTabs>
-        <IonRouterOutlet>
-          <Route exact path='/'>
+        <IonRouterOutlet animated={false}>
+          <Route path='/'>
+            <Redirect to='/home' />
+          </Route>
+          <Route exact path='/home'>
             <Home />
           </Route>
           <Route exact path='/favorites'>
@@ -28,22 +31,7 @@ export const Router: React.FC = () => {
           </Route>
         </IonRouterOutlet>
 
-        <IonTabBar slot='bottom' className='ion-display-md-none'>
-          <IonTabButton tab='home' href='/home'>
-            <IonIcon aria-hidden='true' icon={home} />
-            <IonLabel>Home</IonLabel>
-          </IonTabButton>
-
-          <IonTabButton tab='favorites' href='/favorites'>
-            <IonIcon aria-hidden='true' icon={heart} />
-            <IonLabel>Favoritos</IonLabel>
-          </IonTabButton>
-
-          <IonTabButton tab='search' href='/search'>
-            <IonIcon aria-hidden='true' icon={search} />
-            <IonLabel>Buscar</IonLabel>
-          </IonTabButton>
-        </IonTabBar>
+        <TabBar />
       </IonTabs>
     </IonReactRouter>
   )
