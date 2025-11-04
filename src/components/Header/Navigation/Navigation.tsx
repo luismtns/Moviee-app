@@ -1,11 +1,10 @@
 import { IonButton, IonButtons, IonIcon } from '@ionic/react'
 import { heart, home } from 'ionicons/icons'
 import React from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import './Navigation.css'
 
 export const Navigation: React.FC = () => {
-  const history = useHistory()
   const location = useLocation()
 
   const isActive = (path: string) => {
