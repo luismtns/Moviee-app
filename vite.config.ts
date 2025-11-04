@@ -21,5 +21,19 @@ export default defineConfig({
         inline: ['@ionic/react'],
       },
     },
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'html', 'json-summary'],
+      exclude: [
+        'node_modules/',
+        'src/setupTests.ts',
+        '**/*.test.{ts,tsx}',
+        '**/*.spec.{ts,tsx}',
+        '**/main.tsx',
+        '**/vite-env.d.ts',
+        'dist/',
+        'cypress/',
+      ],
+    },
   },
 })
