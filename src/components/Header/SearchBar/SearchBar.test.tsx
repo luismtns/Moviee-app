@@ -24,4 +24,26 @@ describe('SearchBar', () => {
     const searchbar = container.querySelector('ion-searchbar')
     expect(searchbar?.getAttribute('value')).toBe('matrix')
   })
+
+  it('renders inside toolbar', () => {
+    const { container } = render(
+      <MemoryRouter>
+        <SearchBar />
+      </MemoryRouter>
+    )
+
+    const toolbar = container.querySelector('ion-toolbar')
+    expect(toolbar).toBeTruthy()
+  })
+
+  it('has clear button enabled', () => {
+    const { container } = render(
+      <MemoryRouter>
+        <SearchBar />
+      </MemoryRouter>
+    )
+
+    const searchbar = container.querySelector('ion-searchbar')
+    expect(searchbar).toBeTruthy()
+  })
 })

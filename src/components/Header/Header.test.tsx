@@ -14,14 +14,33 @@ describe('Header', () => {
     expect(container.querySelector('ion-toolbar')).toBeTruthy()
   })
 
-  it('renders logo and app name', () => {
+  it('renders app name', () => {
     const { container } = render(
       <MemoryRouter>
         <Header />
       </MemoryRouter>
     )
 
-    expect(container.querySelector('.logo-container')).toBeTruthy()
     expect(container.querySelector('.app-name')?.textContent).toBe('Moviee')
+  })
+
+  it('renders back button when backHref provided', () => {
+    const { container } = render(
+      <MemoryRouter>
+        <Header backHref='/home' />
+      </MemoryRouter>
+    )
+
+    expect(container.querySelector('ion-back-button')).toBeTruthy()
+  })
+
+  it('does not render back button without backHref', () => {
+    const { container } = render(
+      <MemoryRouter>
+        <Header />
+      </MemoryRouter>
+    )
+
+    expect(container.querySelector('ion-back-button')).toBeFalsy()
   })
 })

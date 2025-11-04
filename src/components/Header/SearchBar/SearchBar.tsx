@@ -1,6 +1,7 @@
-import { IonSearchbar, useIonViewDidEnter } from '@ionic/react'
+import { IonSearchbar, IonToolbar, useIonViewDidEnter } from '@ionic/react'
 import React, { useRef } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
+import './SearchBar.css'
 
 interface SearchBarProps {
   placeholder?: string
@@ -34,15 +35,18 @@ export const SearchBar: React.FC<SearchBarProps> = ({ placeholder = 'Buscar Film
     }
   })
   return (
-    <IonSearchbar
-      ref={inputRef}
-      value={queryTerm}
-      placeholder={placeholder}
-      onIonInput={handleInput}
-      onIonClear={handleClear}
-      showClearButton='always'
-      debounce={800}
-      className='search-bar'
-    />
+    <IonToolbar className='search-container' slot='start'>
+      <IonSearchbar
+        ref={inputRef}
+        value={queryTerm}
+        placeholder={placeholder}
+        onIonChange={handleInput}
+        onIonClear={handleClear}
+        showClearButton='always'
+        debounce={800}
+        className='search-bar'
+        slot='start'
+      />
+    </IonToolbar>
   )
 }

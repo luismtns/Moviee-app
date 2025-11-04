@@ -1,4 +1,4 @@
-import { IonButton, IonIcon, IonToolbar } from '@ionic/react'
+import { IonButton, IonButtons, IonIcon } from '@ionic/react'
 import { heart, home } from 'ionicons/icons'
 import React from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
@@ -12,20 +12,12 @@ export const Navigation: React.FC = () => {
     return location.pathname === path
   }
 
-  const handleHomeClick = () => {
-    history.push('/')
-  }
-
-  const handleFavoritesClick = () => {
-    history.push('/favorites')
-  }
-
   return (
-    <IonToolbar className='navigation'>
+    <IonButtons slot='primary' className='navigation ion-display-md-flex ion-display-none'>
       <IonButton
-        fill={isActive('/') ? 'solid' : 'clear'}
-        color={isActive('/') ? 'primary' : 'medium'}
-        onClick={handleHomeClick}
+        fill={isActive('/home') ? 'solid' : 'clear'}
+        color={isActive('/home') ? 'primary' : 'medium'}
+        href='/home'
         className='nav-button'>
         <IonIcon icon={home} />
         Home
@@ -34,11 +26,11 @@ export const Navigation: React.FC = () => {
       <IonButton
         fill={isActive('/favorites') ? 'solid' : 'clear'}
         color={isActive('/favorites') ? 'primary' : 'medium'}
-        onClick={handleFavoritesClick}
+        href='/favorites'
         className='nav-button'>
         <IonIcon icon={heart} />
         Favoritos
       </IonButton>
-    </IonToolbar>
+    </IonButtons>
   )
 }

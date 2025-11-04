@@ -4,14 +4,9 @@
   display: flex;
   gap: var(--ion-padding);
   align-items: center;
+  flex-wrap: nowrap;
 }
-
-.navigation .toolbar-content {
-  display: flex;
-  gap: var(--ion-padding);
-  align-items: center;
-}
-
+/*
 .nav-button {
   --padding-start: var(--ion-padding);
   --padding-end: var(--ion-padding);
@@ -22,4 +17,4 @@
   font-weight: 500;
   text-transform: none;
   margin-block: var(--ion-margin);
-}
+} */
