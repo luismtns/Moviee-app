@@ -1,24 +1,30 @@
+import { MovieDetails } from '@/types/Movie'
 import { IonIcon, IonItem, IonLabel, IonList } from '@ionic/react'
 import { ReactNode, memo } from 'react'
 import './MovieDetailsList.css'
 
-export interface Field<T = any> {
+export interface Field {
   key: string
   icon: string
   label: string
-  render?: (data: T) => ReactNode
+  render?: (data: MovieDetails) => ReactNode
 }
 
-interface MovieDetailsListProps<T = any> {
-  data: T
-  fields: Field<T>[]
+interface MovieDetailsListProps {
+  data: MovieDetails
+  fields: Field[]
 }
 
-const getNestedValue = (obj: any, path: string): any => {
-  return path.split('.').reduce((acc, part) => acc?.[part], obj)
+const getNestedValue = (obj: MovieDetails, path: string): unknown => {
+  return path.split('.').reduce((acc: unknown, part: string) => {
+    if (acc && typeof acc === 'object' && part in acc) {
+      return (acc as Record<string, unknown>)[part]
+    }
+    return undefined
+  }, obj)
 }
 
-const MovieDetailsList = memo(<T,>({ data, fields }: MovieDetailsListProps<T>) => {
+const MovieDetailsList = memo(({ data, fields }: MovieDetailsListProps) => {
   return (
     <IonList className='movie-meta-list'>
       {fields.map((field) => {
@@ -37,6 +43,6 @@ const MovieDetailsList = memo(<T,>({ data, fields }: MovieDetailsListProps<T>) =
       })}
     </IonList>
   )
-}) as <T>(props: MovieDetailsListProps<T>) => React.JSX.Element
+})
 
 export default MovieDetailsList
