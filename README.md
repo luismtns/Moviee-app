@@ -1,9 +1,13 @@
-# Moviee App
+<div align="center">
+  <img src="public/assets/moviee-logo.svg" alt="Moviee Logo" width="120"/>
+</div>
+
+# Moviee
 
 [![Test](https://github.com/luismtns/Moviee-app/actions/workflows/test.yml/badge.svg)](https://github.com/luismtns/Moviee-app/actions/workflows/test.yml)
 [![Lint](https://github.com/luismtns/Moviee-app/actions/workflows/lint.yml/badge.svg)](https://github.com/luismtns/Moviee-app/actions/workflows/lint.yml)
 
-Aplicação de filmes desenvolvida com Ionic React que consome a API do TMDB.
+App de filmes com Ionic React consumindo TMDB API. Teste técnico demonstrando arquitetura escalável e boas práticas.
 
 ## Instalação e Execução
 
@@ -24,15 +28,29 @@ pnpm dev
 
 A aplicação estará disponível em http://localhost:5173
 
-**Obtenha sua API key gratuita em:** https://www.themoviedb.org/settings/api
+**Obtenha API key em:** https://www.themoviedb.org/settings/api
 
 ## Funcionalidades Implementadas
 
-- Listagem de filmes populares com scroll infinito
-- Sistema de busca de filmes em tempo real
-- Funcionalidade de favoritos com persistência local
-- Interface responsiva para mobile e desktop
-- Cache offline para melhor experiência do usuário
+**Requisitos do Teste**
+
+- Listagem de filmes populares consumindo TMDB API
+- Busca de filmes por nome com debounce
+- Tela de detalhes com informações completas do filme
+- Sistema de favoritos com persistência local
+- Interface responsiva mobile e desktop
+
+**Melhorias Além do Solicitado**
+
+- Autenticação automática via Guest Session da TMDB com renovação
+- Virtualização de listas com react-virtuoso para performance em grandes volumes
+- Arquitetura modular com componentes atomizados
+- Testes unitários com 70%+ de cobertura
+- CI/CD com GitHub Actions
+- PWA configurado para funcionamento offline
+- Ordenação de favoritos por data ou avaliação
+- Highlight do termo de busca nos resultados
+- Build mobile Android/iOS via Capacitor
 
 ## Tecnologias Utilizadas
 
@@ -62,11 +80,19 @@ src/
 └── utils/          # Funções utilitárias
 ```
 
+Essa é uma visáo macro da arquitetra do projeto, para uma visão mais detalhada, consulte o arquivo [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+
 ## Decisões Técnicas
 
-**React Query** foi escolhido para gerenciamento de estado do servidor devido ao cache automático, invalidação inteligente e otimizações para mobile.
+**React Query (TanStack)**: Cache inteligente, sincronização automática e otimizações de rede nativas.
 
-**Zustand** foi utilizado para estado local simples (favoritos) por ser mais leve que Redux para este caso de uso específico.
+**Zustand**: Estado local leve com persistência automática no localStorage/Capacitor Preferences.
+
+**React Virtuoso**: Renderização virtualizada para listas com milhares de itens sem perda de performance.
+
+**Ionic React**: Framework híbrido que garante UI nativa iOS/Android a partir de um único código.
+
+**Arquitetura por features**: Cada componente isolado com seus testes, estilos e subcomponentes.
 
 ## Scripts Disponíveis
 
@@ -74,7 +100,8 @@ src/
 pnpm dev          # Executa em modo desenvolvimento
 pnpm build        # Gera build de produção
 pnpm preview      # Preview do build de produção
-pnpm test         # Executa testes unitários
+pnpm
+ test         # Executa testes unitários
 pnpm lint         # Verifica qualidade do código
 ```
 
@@ -106,13 +133,22 @@ A aplicação consome os seguintes endpoints da API TMDB:
 
 ## Funcionalidades Técnicas
 
-- Cache inteligente com React Query (5 minutos para dados populares)
-- Debounce na busca para otimizar requisições (500ms)
-- Persistência automática de favoritos via localStorage
-- Loading states e tratamento de erros
-- Interface adaptativa iOS/Android via Ionic
-- Lazy loading de imagens para performance
+- Cache inteligente (5min popular, 2min search)
+- Debounce na busca (500ms, mínimo 3 chars)
+- Persistência cross-platform (localStorage web / Capacitor Preferences mobile)
+- Autenticação guest session com renovação automática
+- Tratamento de erros com toasts nativos
+- Lazy loading de imagens com fallback
+- Virtualização de listas para alta performance
+- States de loading/empty/error padronizados
+
+## Testes e Qualidade
+
+- **Coverage**: 70%+ (Vitest + Testing Library)
+- **Lint**: ESLint com regras React Hooks
+- **CI/CD**: Validação automática no GitHub Actions
+- **Tipos**: TypeScript strict mode
 
 ---
 
-Desenvolvido como teste técnico demonstrando competências em React, TypeScript, gerenciamento de estado e integração com APIs REST.
+**Desenvolvido por Luis Bovo** - Teste técnico demonstrando React/TypeScript, gerenciamento de estado, arquitetura escalável e integração com APIs REST.
