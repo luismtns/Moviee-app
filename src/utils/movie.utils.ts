@@ -1,7 +1,7 @@
 // Movie utilities
 export const movieUtils = {
   getImageUrl: (path: string | null, size: 'w200' | 'w500' | 'original' = 'w500'): string => {
-    if (!path) return '/assets/no-poster-available.png'
+    if (!path) return size === 'original' ? '/assets/unavailable-backdrop.png' : '/assets/unavailable-cover.png'
     const baseUrl = import.meta.env.VITE_TMDB_IMG_BASE || 'https://image.tmdb.org/t/p'
     return `${baseUrl}/${size}${path}`
   },
