@@ -13,22 +13,5 @@ export default defineConfig({
     defaultCommandTimeout: 8000,
     numTestsKeptInMemory: 0,
     experimentalMemoryManagement: true,
-    setupNodeEvents(on, config) {
-      on('before:browser:launch', (browser, launchOptions) => {
-        if (browser.family === 'chromium' && browser.name !== 'electron') {
-          launchOptions.args.push('--disable-dev-shm-usage')
-          launchOptions.args.push('--no-sandbox')
-        }
-
-        if (browser.name === 'electron') {
-          launchOptions.preferences.fullscreen = false
-          launchOptions.preferences.disableIndexedDb = true
-        }
-
-        return launchOptions
-      })
-
-      return config
-    },
   },
 })
