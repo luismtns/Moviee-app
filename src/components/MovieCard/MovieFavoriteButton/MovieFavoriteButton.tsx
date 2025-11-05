@@ -4,6 +4,7 @@ import { IonButton, IonIcon, IonSpinner } from '@ionic/react'
 import { heart, heartDislike, heartOutline } from 'ionicons/icons'
 import { memo, useState } from 'react'
 import { useHistory } from 'react-router-dom'
+import './MovieFavoriteButton.css'
 
 interface MovieFavoriteButtonProps {
   movieId: number
@@ -58,7 +59,8 @@ const MovieFavoriteButton: React.FC<MovieFavoriteButtonProps> = memo(
         style={{ opacity: showDeleteIcon || isFav ? 1 : 0.8 }}
         onClick={handleClick}
         disabled={isLoading}
-        aria-label={ariaLabel}>
+        aria-label={ariaLabel}
+        className='movie-fav-button'>
         {isLoading ? <IonSpinner name='crescent' /> : <IonIcon size='large' icon={icon} color={iconColor} />}
       </IonButton>
     )
