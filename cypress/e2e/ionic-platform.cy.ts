@@ -1,16 +1,7 @@
 describe('Ionic Platform Behavior', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('/')
     cy.waitForIonic()
-  })
-
-  beforeEach(() => {
-    cy.url().then((url) => {
-      if (!url.includes('/home')) {
-        cy.visit('/')
-        cy.waitForIonic()
-      }
-    })
   })
 
   it('loads ionic app correctly', () => {
@@ -25,7 +16,7 @@ describe('Ionic Platform Behavior', () => {
   })
 
   it('handles ionic loading states', () => {
-    cy.get('ion-spinner', { timeout: 5000 }).should('not.exist')
+    cy.get('ion-spinner').should('not.exist')
     cy.get('ion-card').should('exist')
   })
 

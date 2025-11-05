@@ -1,17 +1,9 @@
 describe('Navigation', () => {
-  before(() => {
-    cy.intercept('GET', '**/movie/popular*', { fixture: 'movies.json' })
-    cy.visit('/')
-    cy.waitForIonic()
-  })
-
   beforeEach(() => {
-    cy.url().then((url) => {
-      if (!url.includes('/home')) {
-        cy.visit('/')
-        cy.waitForIonic()
-      }
-    })
+    cy.intercept('GET', '**/movie/popular*', { fixture: 'movies.json' }).as('getMovies')
+    cy.visit('/')
+    cy.wait('@getMovies')
+    cy.waitForIonic()
   })
 
   it('uses ionic tab bar for navigation', () => {

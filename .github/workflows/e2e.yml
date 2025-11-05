@@ -29,11 +29,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Verify Cypress
+      - name: Install Cypress binary
         run: npx cypress install
-
-      - name: Cypress info
-        run: npx cypress info
 
       - uses: cypress-io/github-action@v6
         with:
@@ -41,7 +38,7 @@ jobs:
           build: pnpm build
           start: pnpm preview
           wait-on: 'http://localhost:4173'
-          browser: chrome
+          browser: electron
           config: baseUrl=http://localhost:4173
         env:
           VITE_TMDB_API_V3_KEY: ${{ secrets.VITE_TMDB_API_V3_KEY }}
