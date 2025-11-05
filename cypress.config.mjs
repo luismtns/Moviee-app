@@ -11,5 +11,7 @@ export default defineConfig({
     specPattern: 'cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
     pageLoadTimeout: 60000,
     defaultCommandTimeout: 8000,
+    numTestsKeptInMemory: 0,
+    experimentalMemoryManagement: true,
   },
 })

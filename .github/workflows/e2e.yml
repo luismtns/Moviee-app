@@ -39,11 +39,13 @@ jobs:
           start: pnpm preview
           wait-on: 'http://localhost:4173'
           browser: electron
-          config: baseUrl=http://localhost:4173
+          config: baseUrl=http://localhost:4173,numTestsKeptInMemory=0
+          headed: false
         env:
           VITE_TMDB_API_V3_KEY: ${{ secrets.VITE_TMDB_API_V3_KEY }}
           VITE_TMDB_BASE_URL: https://api.themoviedb.org/3
           VITE_TMDB_IMG_BASE: https://image.tmdb.org/t/p
+          ELECTRON_EXTRA_LAUNCH_ARGS: --disable-gpu --disable-dev-shm-usage --no-sandbox
 
       - uses: actions/upload-artifact@v4
         if: failure()
