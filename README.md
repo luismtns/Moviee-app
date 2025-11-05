@@ -7,7 +7,7 @@
 [![Test](https://github.com/luismtns/Moviee-app/actions/workflows/test.yml/badge.svg)](https://github.com/luismtns/Moviee-app/actions/workflows/test.yml)
 [![Lint](https://github.com/luismtns/Moviee-app/actions/workflows/lint.yml/badge.svg)](https://github.com/luismtns/Moviee-app/actions/workflows/lint.yml)
 
-App de filmes com Ionic React consumindo TMDB API. Teste técnico demonstrando arquitetura escalável e boas práticas.
+Aplicação de filmes construída com Ionic React e TypeScript, consumindo a API do TMDB. Desenvolvida como teste técnico demonstrando arquitetura escalável, boas práticas e qualidade de código.
 
 ## Instalação e Execução
 
@@ -45,7 +45,8 @@ A aplicação estará disponível em http://localhost:5173
 - Autenticação automática via Guest Session da TMDB com renovação
 - Virtualização de listas com react-virtuoso para performance em grandes volumes
 - Arquitetura modular com componentes atomizados
-- Testes unitários com 70%+ de cobertura
+- Testes unitários com 70%+ de cobertura (Vitest)
+- Testes E2E com Cypress seguindo boas práticas Ionic
 - CI/CD com GitHub Actions
 - Ordenação de favoritos por data ou avaliação
 - Highlight do termo de busca nos resultados
@@ -79,7 +80,7 @@ src/
 └── utils/          # Funções utilitárias
 ```
 
-Essa é uma visáo macro da arquitetra do projeto, para uma visão mais detalhada, consulte o arquivo [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+Essa é uma visão macro da arquitetura do projeto, para uma visão mais detalhada, consulte o arquivo [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 ## Decisões Técnicas
 
@@ -96,11 +97,11 @@ Essa é uma visáo macro da arquitetra do projeto, para uma visão mais detalhad
 ## Scripts Disponíveis
 
 ```bash
-pnpm dev          # Executa em modo desenvolvimento
-pnpm build        # Gera build de produção
-pnpm preview      # Preview do build de produção
-pnpm
- test         # Executa testes unitários
+pnpm dev          # Desenvolvimento
+pnpm build        # Build de produção
+pnpm test         # Testes unitários (Vitest - 70%+ cobertura)
+pnpm cypress:open # Cypress UI interativo
+pnpm cypress:run  # Cypress E2E headless (38 testes - 100% passing)
 pnpm lint         # Verifica qualidade do código
 ```
 
@@ -143,10 +144,36 @@ A aplicação consome os seguintes endpoints da API TMDB:
 
 ## Testes e Qualidade
 
+### Testes Unitários
+
 - **Coverage**: 70%+ (Vitest + Testing Library)
+- Componentes, hooks e utilities testados
+- Mocks para serviços externos
+
+### Testes E2E (Cypress + Ionic)
+
+38 testes end-to-end seguindo [boas práticas do Cypress para Ionic](https://www.cypress.io/blog/end-to-end-testing-mobile-apps-with-ionic-and-cypress):
+
+```bash
+pnpm cypress:open  # Modo interativo
+pnpm cypress:run   # CI mode (38 testes em ~47s)
+```
+
+**Cobertura E2E**:
+
+- Componentes Ionic nativos (ion-card, ion-searchbar, ion-tab-bar)
+- Navegação com Ionic Router
+- Testes responsivos (iPhone X, iPad 2, Samsung S10, Desktop)
+- Gestures e scroll em ion-content
+- Validação de hidratação e loading states
+- Fixtures para mock de dados da API
+- Custom commands: `cy.waitForIonic()`, `cy.scrollToBottom()`
+
+### CI/CD
+
 - **Lint**: ESLint com regras React Hooks
-- **CI/CD**: Validação automática no GitHub Actions
-- **Tipos**: TypeScript strict mode
+- **Tests**: Validação automática no GitHub Actions
+- **Types**: TypeScript strict mode
 
 ---
 
