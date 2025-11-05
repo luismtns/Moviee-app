@@ -7,6 +7,7 @@
 [![Test](https://github.com/luismtns/Moviee-app/actions/workflows/test.yml/badge.svg)](https://github.com/luismtns/Moviee-app/actions/workflows/test.yml)
 [![Lint](https://github.com/luismtns/Moviee-app/actions/workflows/lint.yml/badge.svg)](https://github.com/luismtns/Moviee-app/actions/workflows/lint.yml)
 [![E2E](https://github.com/luismtns/Moviee-app/actions/workflows/e2e.yml/badge.svg)](https://github.com/luismtns/Moviee-app/actions/workflows/e2e.yml)
+[![Live Demo](https://img.shields.io/badge/demo-live-success?logo=vercel)](https://moviee-app-rho.vercel.app/)
 
 Aplicação de filmes construída com Ionic React e TypeScript, consumindo a API do TMDB. Desenvolvida como teste técnico demonstrando arquitetura escalável, boas práticas e qualidade de código.
 
