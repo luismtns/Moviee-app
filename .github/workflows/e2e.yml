@@ -45,8 +45,6 @@ jobs:
           VITE_TMDB_API_V3_KEY: ${{ secrets.VITE_TMDB_API_V3_KEY }}
           VITE_TMDB_BASE_URL: https://api.themoviedb.org/3
           VITE_TMDB_IMG_BASE: https://image.tmdb.org/t/p
-          ELECTRON_EXTRA_LAUNCH_ARGS: --disable-gpu --disable-dev-shm-usage --no-sandbox --disable-software-rasterizer --disable-dev-tools
-          ELECTRON_RUN_AS_NODE: 1
 
       - uses: actions/upload-artifact@v4
         if: failure()
