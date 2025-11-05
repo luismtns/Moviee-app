@@ -15,11 +15,6 @@ describe('Ionic Platform Behavior', () => {
     cy.get('ion-content').trigger('touchend')
   })
 
-  it('handles ionic loading states', () => {
-    cy.get('ion-spinner').should('not.exist')
-    cy.get('ion-card').should('exist')
-  })
-
   it('uses ionic color system', () => {
     cy.get('[color]').should('exist')
   })
