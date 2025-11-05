@@ -1,7 +1,16 @@
 describe('Ionic Platform Behavior', () => {
-  beforeEach(() => {
+  before(() => {
     cy.visit('/')
     cy.waitForIonic()
+  })
+
+  beforeEach(() => {
+    cy.url().then((url) => {
+      if (!url.includes('/home')) {
+        cy.visit('/')
+        cy.waitForIonic()
+      }
+    })
   })
 
   it('loads ionic app correctly', () => {

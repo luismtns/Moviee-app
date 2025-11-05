@@ -1,13 +1,26 @@
 describe('Navigation', () => {
-  beforeEach(() => {
+  before(() => {
     cy.intercept('GET', '**/movie/popular*', { fixture: 'movies.json' })
     cy.visit('/')
     cy.waitForIonic()
   })
 
+  beforeEach(() => {
+    cy.url().then((url) => {
+      if (!url.includes('/home')) {
+        cy.visit('/')
+        cy.waitForIonic()
+      }
+    })
+  })
+
   it('uses ionic tab bar for navigation', () => {
     cy.get('ion-tab-bar').should('exist')
     cy.get('ion-tab-button').should('have.length', 2)
+  })
+
+  it('displays home content', () => {
+    cy.get('ion-card').should('exist')
   })
 
   it('switches tabs with ionic router', () => {
@@ -27,9 +40,5 @@ describe('Navigation', () => {
     cy.get('ion-tab-button[tab="home"]').click()
 
     cy.get('ion-card').should('have.length.greaterThan', 0)
-  })
-
-  it('displays home content', () => {
-    cy.get('ion-card').should('exist')
   })
 })

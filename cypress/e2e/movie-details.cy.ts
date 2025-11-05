@@ -2,9 +2,14 @@ describe('Movie Details', () => {
   beforeEach(() => {
     cy.intercept('GET', '**/movie/popular*', { fixture: 'movies.json' })
     cy.intercept('GET', '**/movie/533535*', { fixture: 'movie-details.json' }).as('getMovieDetails')
-    cy.visit('/')
-    cy.get('ion-card').first().click()
-    cy.wait('@getMovieDetails')
+
+    cy.url().then((url) => {
+      if (!url.includes('/movie/')) {
+        cy.visit('/')
+        cy.get('ion-card').first().click()
+        cy.wait('@getMovieDetails')
+      }
+    })
   })
 
   it('displays ionic content structure', () => {
@@ -23,15 +28,15 @@ describe('Movie Details', () => {
     cy.get('ion-card').should('exist')
   })
 
+  it('scrolls content smoothly', () => {
+    cy.get('ion-content').first().scrollTo('bottom', { duration: 500, ensureScrollable: false })
+    cy.get('ion-content').first().scrollTo('top', { duration: 500, ensureScrollable: false })
+  })
+
   it('uses ionic router for navigation', () => {
     cy.get('ion-back-button').should('exist')
     cy.get('ion-back-button').click()
     cy.url().should('not.include', '/movie/')
     cy.get('ion-card').should('exist')
-  })
-
-  it('scrolls content smoothly', () => {
-    cy.get('ion-content').first().scrollTo('bottom', { duration: 500, ensureScrollable: false })
-    cy.get('ion-content').first().scrollTo('top', { duration: 500, ensureScrollable: false })
   })
 })
