@@ -154,11 +154,9 @@ A aplicação consome os seguintes endpoints da API TMDB:
 
 ### Testes E2E (Cypress + Ionic)
 
-38 testes end-to-end seguindo [boas práticas do Cypress para Ionic](https://www.cypress.io/blog/end-to-end-testing-mobile-apps-with-ionic-and-cypress):
-
 ```bash
-pnpm cypress:open  # Modo interativo
-pnpm cypress:run   # CI mode (38 testes em ~47s)
+pnpm cypress:open  # Modo interativo (development)
+pnpm cypress:run   # CI mode
 ```
 
 **Cobertura E2E**:
@@ -166,10 +164,8 @@ pnpm cypress:run   # CI mode (38 testes em ~47s)
 - Componentes Ionic nativos (ion-card, ion-searchbar, ion-tab-bar)
 - Navegação com Ionic Router
 - Testes responsivos (iPhone X, iPad 2, Samsung S10, Desktop)
-- Gestures e scroll em ion-content
 - Validação de hidratação e loading states
 - Fixtures para mock de dados da API
-- Custom commands: `cy.waitForIonic()`, `cy.scrollToBottom()`
 
 ### CI/CD
 
