@@ -6,8 +6,6 @@ import './SearchBar.css'
 
 interface SearchBarProps {
   placeholder?: string
-  autoFocus?: boolean
-  slot?: string | undefined
 }
 
 export const SearchBar: React.FC<SearchBarProps> = ({ placeholder = 'Buscar Filmes...' }) => {
