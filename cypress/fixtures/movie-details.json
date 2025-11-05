@@ -1,0 +1,17 @@
+{
+  "id": 533535,
+  "title": "Deadpool & Wolverine",
+  "overview": "A listless Wade Wilson toils away in civilian life with his days as the morally flexible mercenary, Deadpool, behind him.",
+  "poster_path": "/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg",
+  "backdrop_path": "/yDHYTfA3R0jFYba16jBB1ef8oIt.jpg",
+  "vote_average": 7.8,
+  "vote_count": 5234,
+  "release_date": "2024-07-24",
+  "runtime": 128,
+  "budget": 200000000,
+  "revenue": 1338073645,
+  "genres": [
+    { "id": 28, "name": "Action" },
+    { "id": 35, "name": "Comedy" }
+  ]
+}
