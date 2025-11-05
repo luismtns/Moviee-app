@@ -1,10 +1,4 @@
 .main-header {
   --ion-safe-area-top: 0.5rem;
-}
-
-.app-name {
-  display: inline-block;
-  color: var(--ion-color-primary);
-  font-weight: 700;
-  font-size: 1.2rem;
+  --min-height: 3.5rem;
 }
